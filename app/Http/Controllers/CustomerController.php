@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -23,7 +26,7 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Categories $categories)
+    public function create(Request $request, Customer $customer)
     {
         $validator = Validator::make(
             $request->all(),
@@ -72,13 +75,11 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        if ($customer::where('customer_id', $customer)->exists()) {
-            $data = $customer::where('customer.customer_id', '=', $customer)->get();
-
+        if ($customer) {
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $data
+                'data' => $customer
             ], 200);
         } else {
             return response()->json([
@@ -102,7 +103,38 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'customer_name' => 'required',
+                'address' => 'required',
+                'phone' => 'required'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return Response()->json($validator->errors());
+        }
+
+        $update = $customer
+            ->update([
+                'customer_name' => $request->customer_name,
+                'address' => $request->address,
+                'phone' => $request->phone
+            ]);
+
+        if ($update) {
+            return Response()->json([
+                'status' => 1,
+                'message' => 'Success updating data !',
+                'data' => $customer
+            ]);
+        } else {
+            return Response()->json([
+                'status' => 0,
+                'message' => 'Failed updating data !'
+            ]);
+        }
     }
 
     /**
@@ -110,8 +142,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $delete = DB::table('customer_id')
-            ->where('customer_id', '=', $customer)
+        $delete = $customer
             ->delete();
 
         if ($delete) {
