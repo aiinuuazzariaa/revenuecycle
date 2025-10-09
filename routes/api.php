@@ -14,6 +14,6 @@ Route::apiResources([
 
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::post('/customer', [CustomerController::class, 'create']);
-Route::get('/customer/id', [CustomerController::class, 'show']);
+Route::get('/customer/{id}', [CustomerController::class, 'show']);
 Route::put('/customer/id', [CustomerController::class, 'update']);
 Route::delete('/customer/id', [CustomerController::class, 'destroy']);
