@@ -7,7 +7,6 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -73,8 +72,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer, $id)
     {
+        $customer = Customer::where('customer_id', $id)->first();
+
         if ($customer) {
             return response()->json([
                 'success' => true,
