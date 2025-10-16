@@ -10,7 +10,11 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
     protected $table = 'products';
-    protected $primaryKey = 'product_id';
 
-    protected $fillable = ['product_name', 'price'];
+    protected $guarded = ['id'];
+
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+    }
 }
