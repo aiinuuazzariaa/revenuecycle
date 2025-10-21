@@ -2,36 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Pihutang;
+use App\Http\Requests\StorePihutangRequest;
+use App\Http\Requests\UpdatePihutangRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CustomerController extends Controller
+class PihutangController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Customer $customer)
+    public function index(Pihutang $pihutang)
     {
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $customer::all()
+            'data' => $pihutang::all()
         ], 200);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Customer $customer)
+    public function create(Request $request, Pihutang $pihutang)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_name' => 'required',
-                'phone' => 'required'
+                'account_number_id' => 'required',
+                'income_id' => 'required',
+                'total' => 'required',
+                'status' => 'required'
             ]
         );
 
@@ -39,12 +41,14 @@ class CustomerController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $store = $customer::create([
-            'customer_name' => $request->customer_name,
-            'phone' => $request->phone
+        $store = $pihutang::create([
+            'account_number_id' => $request->account_number_id,
+            'income_id' => $request->income_id,
+            'total' => $request->total,
+            'status' => $request->status
         ]);
 
-        $data = $customer::where('customer_name', '=', $request->customer_name)->get();
+        $data = $pihutang::where('income_id', '=', $request->income_id)->get();
         if ($store) {
             return Response()->json([
                 'status' => 1,
@@ -62,7 +66,7 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StorePihutangRequest $request)
     {
         //
     }
@@ -70,15 +74,15 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer, $id)
+    public function show(Pihutang $pihutang, $id)
     {
-        $customer = Customer::where('id', $id)->first();
+        $pihutang = Pihutang::where('id', $id)->first();
 
-        if ($customer) {
+        if ($pihutang) {
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $customer
+                'data' => $pihutang
             ], 200);
         } else {
             return response()->json([
@@ -92,7 +96,7 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Pihutang $pihutang)
     {
         //
     }
@@ -100,13 +104,15 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer, $id)
+    public function update(UpdatePihutangRequest $request, Pihutang $pihutang)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_name' => 'required',
-                'phone' => 'required'
+                'account_number_id' => 'required',
+                'income_id' => 'required',
+                'total' => 'required',
+                'status' => 'required'
             ]
         );
 
@@ -114,16 +120,19 @@ class CustomerController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $update = $customer::where('id', $id)->update([
-                'customer_name' => $request->customer_name,
-                'phone' => $request->phone
+        $update = $d
+            ->update([
+                'account_number_id' => $request->account_number_id,
+                'income_id' => $request->income_id,
+                'total' => $request->total,
+                'status' => $request->status
             ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $customer::where('id', $id)->get()
+                'data' => $Income
             ]);
         } else {
             return Response()->json([
@@ -136,9 +145,10 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer, $id)
+    public function destroy(Pihutang $pihutang)
     {
-        $delete = $customer::where('id', $id)->delete();
+        $delete = $pihutang
+            ->delete();
 
         if ($delete) {
             return Response()->json([

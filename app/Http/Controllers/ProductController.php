@@ -72,7 +72,7 @@ class ProductController extends Controller
      */
     public function show(Product $product, $id)
     {
-        $product = Product::where('product_id', $id)->first();
+        $product = Product::where('id', $id)->first();
 
         if ($product) {
             return response()->json([
@@ -100,7 +100,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -114,8 +114,7 @@ class ProductController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $update = $product
-            ->update([
+        $update = $product::where('id', $id)->update([
                 'product_name' => $request->product_name,
                 'price' => $request->price
             ]);
@@ -124,7 +123,7 @@ class ProductController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $product
+                'data' => $product::where('id', $id)->get()
             ]);
         } else {
             return Response()->json([
@@ -137,10 +136,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, $id)
     {
-        $delete = $product
-            ->delete();
+        $delete = $product::where('id', $id)->delete();
 
         if ($delete) {
             return Response()->json([

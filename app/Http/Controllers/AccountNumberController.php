@@ -2,36 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\AccountNumber;
+use App\Http\Requests\StoreAccountNumberRequest;
+use App\Http\Requests\UpdateAccountNumberRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CustomerController extends Controller
+class AccountNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Customer $customer)
+    public function index(AccountNumber $account_number)
     {
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $customer::all()
+            'data' => $account_number::all()
         ], 200);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Customer $customer)
+    public function create(Request $request, AccountNumber $account_number)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_name' => 'required',
-                'phone' => 'required'
+                'account_number' => 'required|integer|unique:account_numbers,account_number',
+                'account_name' => 'required'
             ]
         );
 
@@ -39,12 +39,12 @@ class CustomerController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $store = $customer::create([
-            'customer_name' => $request->customer_name,
-            'phone' => $request->phone
+        $store = $account_number::create([
+            'account_number' => $request->account_number,
+            'account_name' => $request->account_name
         ]);
 
-        $data = $customer::where('customer_name', '=', $request->customer_name)->get();
+        $data = $account_number::where('account_name', '=', $request->account_name)->get();
         if ($store) {
             return Response()->json([
                 'status' => 1,
@@ -62,7 +62,7 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreAccountNumberRequest $request)
     {
         //
     }
@@ -70,15 +70,15 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer, $id)
+    public function show(AccountNumber $account_number, $id)
     {
-        $customer = Customer::where('id', $id)->first();
+        $account_number = AccountNumber::where('id', $id)->first();
 
-        if ($customer) {
+        if ($account_number) {
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $customer
+                'data' => $account_number
             ], 200);
         } else {
             return response()->json([
@@ -92,7 +92,7 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(AccountNumber $account_number)
     {
         //
     }
@@ -100,13 +100,13 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer, $id)
+    public function update(UpdateAccountNumberRequest $request, AccountNumber $account_number, $id)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_name' => 'required',
-                'phone' => 'required'
+                'account_number' => 'required',
+                'account_name' => 'required'
             ]
         );
 
@@ -114,16 +114,16 @@ class CustomerController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $update = $customer::where('id', $id)->update([
-                'customer_name' => $request->customer_name,
-                'phone' => $request->phone
+        $update = $account_number::where('id', $id)->update([
+                'account_number' => $request->account_number,
+                'account_name' => $request->account_name
             ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $customer::where('id', $id)->get()
+                'data' => $account_number::where('id', $id)->get()
             ]);
         } else {
             return Response()->json([
@@ -136,9 +136,9 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer, $id)
+    public function destroy(AccountNumber $account_number, $id)
     {
-        $delete = $customer::where('id', $id)->delete();
+        $delete = $account_number::where('id', $id)->delete();
 
         if ($delete) {
             return Response()->json([
