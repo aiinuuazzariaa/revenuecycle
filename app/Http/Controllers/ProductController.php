@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,10 +15,10 @@ class ProductController extends Controller
      */
     public function index(Product $product)
     {
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $product::all()
+            'data' => $product::all(),
         ], 200);
     }
 
@@ -31,7 +31,7 @@ class ProductController extends Controller
             $request->all(),
             [
                 'product_name' => 'required',
-                'price' => 'required'
+                'price' => 'required',
             ]
         );
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
 
         $store = $product::create([
             'product_name' => $request->product_name,
-            'price' => $request->price
+            'price' => $request->price,
         ]);
 
         $data = $product::where('product_name', '=', $request->product_name)->get();
@@ -49,12 +49,12 @@ class ProductController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success create new data!',
-                'data' => $data
+                'data' => $data,
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed create data!'
+                'message' => 'Failed create data!',
             ]);
         }
     }
@@ -78,13 +78,13 @@ class ProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $product
+                'data' => $product,
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed find the data!',
-                'data' => ''
+                'data' => '',
             ], 404);
         }
     }
@@ -106,7 +106,7 @@ class ProductController extends Controller
             $request->all(),
             [
                 'product_name' => 'required',
-                'price' => 'required'
+                'price' => 'required',
             ]
         );
 
@@ -115,20 +115,20 @@ class ProductController extends Controller
         }
 
         $update = $product::where('id', $id)->update([
-                'product_name' => $request->product_name,
-                'price' => $request->price
-            ]);
+            'product_name' => $request->product_name,
+            'price' => $request->price,
+        ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $product::where('id', $id)->get()
+                'data' => $product::where('id', $id)->get(),
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed updating data !'
+                'message' => 'Failed updating data !',
             ]);
         }
     }
@@ -143,12 +143,12 @@ class ProductController extends Controller
         if ($delete) {
             return Response()->json([
                 'status' => 1,
-                'message' => 'Success delete data !'
+                'message' => 'Success delete data !',
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed delete data !'
+                'message' => 'Failed delete data !',
             ]);
         }
     }

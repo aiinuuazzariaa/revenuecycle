@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,10 +15,10 @@ class CustomerController extends Controller
      */
     public function index(Customer $customer)
     {
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $customer::all()
+            'data' => $customer::all(),
         ], 200);
     }
 
@@ -31,7 +31,7 @@ class CustomerController extends Controller
             $request->all(),
             [
                 'customer_name' => 'required',
-                'phone' => 'required'
+                'phone' => 'required',
             ]
         );
 
@@ -41,7 +41,7 @@ class CustomerController extends Controller
 
         $store = $customer::create([
             'customer_name' => $request->customer_name,
-            'phone' => $request->phone
+            'phone' => $request->phone,
         ]);
 
         $data = $customer::where('customer_name', '=', $request->customer_name)->get();
@@ -49,12 +49,12 @@ class CustomerController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success create new data!',
-                'data' => $data
+                'data' => $data,
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed create data!'
+                'message' => 'Failed create data!',
             ]);
         }
     }
@@ -78,13 +78,13 @@ class CustomerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $customer
+                'data' => $customer,
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed find the data!',
-                'data' => ''
+                'data' => '',
             ], 404);
         }
     }
@@ -106,7 +106,7 @@ class CustomerController extends Controller
             $request->all(),
             [
                 'customer_name' => 'required',
-                'phone' => 'required'
+                'phone' => 'required',
             ]
         );
 
@@ -115,20 +115,20 @@ class CustomerController extends Controller
         }
 
         $update = $customer::where('id', $id)->update([
-                'customer_name' => $request->customer_name,
-                'phone' => $request->phone
-            ]);
+            'customer_name' => $request->customer_name,
+            'phone' => $request->phone,
+        ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $customer::where('id', $id)->get()
+                'data' => $customer::where('id', $id)->get(),
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed updating data !'
+                'message' => 'Failed updating data !',
             ]);
         }
     }
@@ -143,12 +143,12 @@ class CustomerController extends Controller
         if ($delete) {
             return Response()->json([
                 'status' => 1,
-                'message' => 'Success delete data !'
+                'message' => 'Success delete data !',
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed delete data !'
+                'message' => 'Failed delete data !',
             ]);
         }
     }

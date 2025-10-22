@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccountNumber;
 use App\Http\Requests\StoreAccountNumberRequest;
 use App\Http\Requests\UpdateAccountNumberRequest;
+use App\Models\AccountNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +18,7 @@ class AccountNumberController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $account_number::all()
+            'data' => $account_number::all(),
         ], 200);
     }
 
@@ -31,7 +31,7 @@ class AccountNumberController extends Controller
             $request->all(),
             [
                 'account_number' => 'required|integer|unique:account_numbers,account_number',
-                'account_name' => 'required'
+                'account_name' => 'required',
             ]
         );
 
@@ -41,7 +41,7 @@ class AccountNumberController extends Controller
 
         $store = $account_number::create([
             'account_number' => $request->account_number,
-            'account_name' => $request->account_name
+            'account_name' => $request->account_name,
         ]);
 
         $data = $account_number::where('account_name', '=', $request->account_name)->get();
@@ -49,12 +49,12 @@ class AccountNumberController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success create new data!',
-                'data' => $data
+                'data' => $data,
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed create data!'
+                'message' => 'Failed create data!',
             ]);
         }
     }
@@ -78,13 +78,13 @@ class AccountNumberController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $account_number
+                'data' => $account_number,
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed find the data!',
-                'data' => ''
+                'data' => '',
             ], 404);
         }
     }
@@ -106,7 +106,7 @@ class AccountNumberController extends Controller
             $request->all(),
             [
                 'account_number' => 'required',
-                'account_name' => 'required'
+                'account_name' => 'required',
             ]
         );
 
@@ -115,20 +115,20 @@ class AccountNumberController extends Controller
         }
 
         $update = $account_number::where('id', $id)->update([
-                'account_number' => $request->account_number,
-                'account_name' => $request->account_name
-            ]);
+            'account_number' => $request->account_number,
+            'account_name' => $request->account_name,
+        ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $account_number::where('id', $id)->get()
+                'data' => $account_number::where('id', $id)->get(),
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed updating data !'
+                'message' => 'Failed updating data !',
             ]);
         }
     }
@@ -143,12 +143,12 @@ class AccountNumberController extends Controller
         if ($delete) {
             return Response()->json([
                 'status' => 1,
-                'message' => 'Success delete data !'
+                'message' => 'Success delete data !',
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed delete data !'
+                'message' => 'Failed delete data !',
             ]);
         }
     }

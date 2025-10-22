@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pihutang;
 use App\Http\Requests\StorePihutangRequest;
 use App\Http\Requests\UpdatePihutangRequest;
+use App\Models\Pihutang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +18,7 @@ class PihutangController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Show all data',
-            'data' => $pihutang::all()
+            'data' => $pihutang::all(),
         ], 200);
     }
 
@@ -33,7 +33,7 @@ class PihutangController extends Controller
                 'account_number_id' => 'required',
                 'income_id' => 'required',
                 'total' => 'required',
-                'status' => 'required'
+                'status' => 'required',
             ]
         );
 
@@ -45,7 +45,7 @@ class PihutangController extends Controller
             'account_number_id' => $request->account_number_id,
             'income_id' => $request->income_id,
             'total' => $request->total,
-            'status' => $request->status
+            'status' => $request->status,
         ]);
 
         $data = $pihutang::where('income_id', '=', $request->income_id)->get();
@@ -53,12 +53,12 @@ class PihutangController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success create new data!',
-                'data' => $data
+                'data' => $data,
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed create data!'
+                'message' => 'Failed create data!',
             ]);
         }
     }
@@ -82,13 +82,13 @@ class PihutangController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Success show data!',
-                'data' => $pihutang
+                'data' => $pihutang,
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed find the data!',
-                'data' => ''
+                'data' => '',
             ], 404);
         }
     }
@@ -112,7 +112,7 @@ class PihutangController extends Controller
                 'account_number_id' => 'required',
                 'income_id' => 'required',
                 'total' => 'required',
-                'status' => 'required'
+                'status' => 'required',
             ]
         );
 
@@ -125,19 +125,19 @@ class PihutangController extends Controller
                 'account_number_id' => $request->account_number_id,
                 'income_id' => $request->income_id,
                 'total' => $request->total,
-                'status' => $request->status
+                'status' => $request->status,
             ]);
 
         if ($update) {
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $Income
+                'data' => $Income,
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed updating data !'
+                'message' => 'Failed updating data !',
             ]);
         }
     }
@@ -153,12 +153,12 @@ class PihutangController extends Controller
         if ($delete) {
             return Response()->json([
                 'status' => 1,
-                'message' => 'Success delete data !'
+                'message' => 'Success delete data !',
             ]);
         } else {
             return Response()->json([
                 'status' => 0,
-                'message' => 'Failed delete data !'
+                'message' => 'Failed delete data !',
             ]);
         }
     }

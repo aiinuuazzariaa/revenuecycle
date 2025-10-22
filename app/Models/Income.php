@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\AccountNumber;
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Pihutang;
+use App\Models\JurnalUmum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +36,10 @@ class Income extends Model
     public function pihutang()
     {
         return $this->hasOne(Pihutang::class);
+    }
+
+    public function jurnalUmum()
+    {
+        return $this->hasOne(JurnalUmum::class);
     }
 }
