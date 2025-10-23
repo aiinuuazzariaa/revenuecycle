@@ -103,20 +103,16 @@ class IncomeController extends Controller
                 'credit' => $credit,
             ]);
 
-            $previousLedger = BukuBesar::where('jurnal_umum_id', $jurnal->id)
-                ->orderBy('id')
-                ->first();
+            $previousSaldo = BukuBesar::orderByDesc('id')->value('saldo') ?? 0;
 
-            $previousSaldo = $previousLedger ? (float)$previousLedger->saldo : 0;
-
-            $saldoBaru = $previousSaldo + (float)$credit;
+            //dd($previousSaldo);
 
             BukuBesar::create([
-                'jurnal_umum_id' => $jurnal -> id,
+                'jurnal_umum_id' => $jurnal->id,
                 'name' => $income_name,
                 'debit' => $debit,
                 'credit' => $credit,
-                'saldo' => $saldoBaru,
+                'saldo' => $previousSaldo + (float) $credit,
             ]);
 
             if ($store) {
