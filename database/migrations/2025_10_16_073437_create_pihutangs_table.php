@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pihutangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_number_id')->constrained()->onDelete('cascade');
+            $table->foreignId('account_number_id')->default(1201);
             $table->foreignId('income_id')->constrained()->onDelete('cascade');
             $table->bigInteger('total')->nullable();
             $table->enum('status', ['paid', 'unpaid']);

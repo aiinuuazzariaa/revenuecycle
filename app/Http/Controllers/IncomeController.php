@@ -8,6 +8,7 @@ use App\Models\AccountNumber;
 use App\Models\BukuBesar;
 use App\Models\Income;
 use App\Models\JurnalUmum;
+use App\Models\Pihutang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,6 +73,10 @@ class IncomeController extends Controller
         $debit = $request->total;
         $credit = $request->total;
 
+        if ($request->payment_type === 'credit') {
+            $debit = $request->pihutang_nominal ?? 0;
+        }
+
         $store = $income::create([
             'income_invoice_number' => $transaction_number,
             'account_number_id' => $request->account_number_id,
@@ -90,23 +95,20 @@ class IncomeController extends Controller
         if ($store && $account) {
             $date = now();
 
+            $account_number_id = $store->account_number_id;
             $income_name = $store->income_name;
             $debit = $store->debit ?? 0;
             $credit = $store->credit ?? 0;
+            $total = $store->total;
 
             $jurnal = JurnalUmum::create([
                 'income_id' => $store->id,
-                'transaction_number' => $transaction_number,
-                'date' => $date,
                 'name' => $income_name,
                 'debit' => $debit,
                 'credit' => $credit,
             ]);
 
             $previousSaldo = BukuBesar::orderByDesc('id')->value('saldo') ?? 0;
-
-            //dd($previousSaldo);
-
             BukuBesar::create([
                 'jurnal_umum_id' => $jurnal->id,
                 'name' => $income_name,
@@ -114,6 +116,36 @@ class IncomeController extends Controller
                 'credit' => $credit,
                 'saldo' => $previousSaldo + (float) $credit,
             ]);
+
+            if ($request->payment_type === 'credit') {
+                $paidAmount = $request->paid_amount ?? 0;
+                $pihutangAmount = $request->total - $paidAmount;
+
+                Pihutang::create([
+                    'account_number_id' => 1201,
+                    'income_id' => $store->id,
+                    'total' => $pihutangAmount,
+                    'status' => 'unpaid',
+                ]);
+
+                if ($pihutangAmount > 0) {
+                    JurnalUmum::create([
+                        'income_id' => $store->id,
+                        'name' => $income_name,
+                        'debit' => $pihutangAmount,
+                        'credit' => $total,
+                    ]);
+                }
+
+                $previousSaldo = BukuBesar::orderByDesc('id')->value('saldo') ?? 0;
+                BukuBesar::create([
+                    'jurnal_umum_id' => $jurnal->id,
+                    'name' => $income_name,
+                    'debit' => $pihutangAmount,
+                    'credit' => $total,
+                    'saldo' => $previousSaldo + $pihutangAmount,
+                ]);
+            }
 
             if ($store) {
                 return Response()->json([
