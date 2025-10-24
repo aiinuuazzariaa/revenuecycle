@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('account_number_id')->constrained()->onDelete('cascade');
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->string('income_name');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->onDelete('cascade');
             $table->bigInteger('total')->nullable();
             $table->enum('payment_type', ['cash', 'credit'])->default('cash');
             $table->bigInteger('debit')->nullable();

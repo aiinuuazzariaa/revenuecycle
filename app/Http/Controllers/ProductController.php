@@ -15,11 +15,13 @@ class ProductController extends Controller
      */
     public function index(Product $product)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Show all data',
-            'data' => $product::all(),
-        ], 200);
+        $data = $product::all();
+        return view('pages.product', compact('data'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Show all data',
+        //     'data' => $product::all(),
+        // ], 200);
     }
 
     /**

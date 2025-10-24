@@ -15,11 +15,13 @@ class CustomerController extends Controller
      */
     public function index(Customer $customer)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Show all data',
-            'data' => $customer::all(),
-        ], 200);
+        $data = $customer::all();
+        return view('pages.customer', compact('data'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Show all data',
+        //     'data' => $customer::all(),
+        // ], 200);
     }
 
     /**

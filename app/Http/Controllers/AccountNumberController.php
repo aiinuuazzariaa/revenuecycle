@@ -15,11 +15,13 @@ class AccountNumberController extends Controller
      */
     public function index(AccountNumber $account_number)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Show all data',
-            'data' => $account_number::all(),
-        ], 200);
+        $data = $account_number::all();
+        return view('pages.account-number', compact('data'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Show all data',
+        //     'data' => $account_number::all(),
+        // ], 200);
     }
 
     /**

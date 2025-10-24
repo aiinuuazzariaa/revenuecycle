@@ -19,11 +19,13 @@ class IncomeController extends Controller
      */
     public function index(Income $income)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Show all data',
-            'data' => $income::all(),
-        ], 200);
+        $data = $income::all();
+        return view('pages.income', compact('data'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Show all data',
+        //     'data' => $income::all(),
+        // ], 200);
     }
 
     /**
