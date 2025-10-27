@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAccountNumberRequest;
 use App\Http\Requests\UpdateAccountNumberRequest;
 use App\Models\AccountNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class AccountNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(AccountNumber $account_number)
+    public function index(AccountNumber $account_number): View
     {
         $data = $account_number::all();
         return view('pages.account-number', compact('data'));
+
         // return response()->json([
         //     'success' => true,
         //     'message' => 'Show all data',
@@ -27,7 +28,15 @@ class AccountNumberController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, AccountNumber $account_number)
+    public function create(): View
+    {
+        return view('pages.account-number-create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, AccountNumber $account_number)
     {
         $validator = Validator::make(
             $request->all(),
@@ -47,48 +56,37 @@ class AccountNumberController extends Controller
         ]);
 
         $data = $account_number::where('account_name', '=', $request->account_name)->get();
-        if ($store) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success create new data!',
-                'data' => $data,
-            ]);
+        if ($account_number) {
+            return redirect()->route('account-number')
+                ->with('success', 'Success add account number!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed create data!',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed add account number!');
         }
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAccountNumberRequest $request)
-    {
-        //
+        // if ($account_number) {
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Success add data!',
+        //         'data' => $account_number,
+        //     ], 200);
+        // } else {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Failed add the data!',
+        //         'data' => '',
+        //     ], 404);
+        // }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(AccountNumber $account_number, $id)
+    public function show(AccountNumber $account_number, $id): View
     {
-        $account_number = AccountNumber::where('id', $id)->first();
-
-        if ($account_number) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Success show data!',
-                'data' => $account_number,
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed find the data!',
-                'data' => '',
-            ], 404);
-        }
+        return view('pages.account-number-edit', [
+            'account' => $account_number::where('id', $id)->first(),
+        ]);
     }
 
     /**
@@ -121,18 +119,26 @@ class AccountNumberController extends Controller
             'account_name' => $request->account_name,
         ]);
 
-        if ($update) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success updating data !',
-                'data' => $account_number::where('id', $id)->get(),
-            ]);
+        if ($account_number) {
+            return redirect()->route('account-number')
+                ->with('success', 'Success update account number!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed updating data !',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed update account number!');
         }
+
+        // if ($update) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success updating data !',
+        //         'data' => $account_number::where('id', $id)->get(),
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed updating data !',
+        //     ]);
+        // }
     }
 
     /**
@@ -142,16 +148,24 @@ class AccountNumberController extends Controller
     {
         $delete = $account_number::where('id', $id)->delete();
 
-        if ($delete) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success delete data !',
-            ]);
+        if ($account_number) {
+            return redirect()->route('account-number')
+                ->with('success', 'Success delete account number!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed delete data !',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed delete account number!');
         }
+
+        // if ($delete) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success delete data !',
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed delete data !',
+        //     ]);
+        // }
     }
 }

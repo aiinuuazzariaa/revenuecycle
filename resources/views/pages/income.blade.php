@@ -9,6 +9,12 @@
                     <div class="card-header pb-0">
                         <h6>Income Table</h6>
                     </div>
+                    <div class="d-flex justify-content-end" style="margin-right: 40px;">
+                        <a href="{{ route('income-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                            data-original-title="Add income">
+                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Income</span>
+                        </a>
+                    </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">

@@ -13,10 +13,11 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Customer $customer)
+    public function index(Customer $customer): View
     {
         $data = $customer::all();
         return view('pages.customer', compact('data'));
+
         // return response()->json([
         //     'success' => true,
         //     'message' => 'Show all data',
@@ -27,7 +28,15 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Customer $customer)
+    public function create(): View
+    {
+        return view('pages.customer-create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(SRequest $request, Customer $customer)
     {
         $validator = Validator::make(
             $request->all(),
@@ -47,48 +56,36 @@ class CustomerController extends Controller
         ]);
 
         $data = $customer::where('customer_name', '=', $request->customer_name)->get();
-        if ($store) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success create new data!',
-                'data' => $data,
-            ]);
+        if ($customer) {
+            return redirect()->route('customer')
+                ->with('success', 'Success add customer!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed create data!',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed add customer!');
         }
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCustomerRequest $request)
-    {
-        //
+        // if ($store) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success create new data!',
+        //         'data' => $data,
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed create data!',
+        //     ]);
+        // }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer, $id)
+    public function show(Customer $customer, $id): View
     {
-        $customer = Customer::where('id', $id)->first();
-
-        if ($customer) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Success show data!',
-                'data' => $customer,
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed find the data!',
-                'data' => '',
-            ], 404);
-        }
+         return view('pages.customer-edit', [
+            'customer' => $customer::where('id', $id)->first(),
+        ]);
     }
 
     /**
@@ -121,18 +118,26 @@ class CustomerController extends Controller
             'phone' => $request->phone,
         ]);
 
-        if ($update) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success updating data !',
-                'data' => $customer::where('id', $id)->get(),
-            ]);
+        if ($customer) {
+            return redirect()->route('customer')
+                ->with('success', 'Success update customer!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed updating data !',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed update customer!');
         }
+
+        // if ($update) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success updating data !',
+        //         'data' => $customer::where('id', $id)->get(),
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed updating data !',
+        //     ]);
+        // }
     }
 
     /**

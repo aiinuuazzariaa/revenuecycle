@@ -9,6 +9,12 @@
                     <div class="card-header pb-0">
                         <h6>Product Table</h6>
                     </div>
+                    <div class="d-flex justify-content-end" style="margin-right: 40px;">
+                        <a href="{{ route('product-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                            data-original-title="Add product">
+                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Product</span>
+                        </a>
+                    </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -42,7 +48,7 @@
                                             <p class="text-sm font-weight-bold mb-0">Rp. {{ $product->price }}000</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                            <a href="{{ route('product-show', $product->id) }}" class="text-secondary font-weight-bold text-xs"
                                                 data-toggle="tooltip" data-original-title="Edit product">
                                                 <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                             </a>

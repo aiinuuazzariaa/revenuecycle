@@ -13,10 +13,11 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Product $product)
+    public function index(Product $product): View
     {
         $data = $product::all();
         return view('pages.product', compact('data'));
+
         // return response()->json([
         //     'success' => true,
         //     'message' => 'Show all data',
@@ -27,7 +28,15 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Product $product)
+    public function create(): View
+    {
+        return view('pages.product-create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, Product $product)
     {
         $validator = Validator::make(
             $request->all(),
@@ -47,48 +56,36 @@ class ProductController extends Controller
         ]);
 
         $data = $product::where('product_name', '=', $request->product_name)->get();
-        if ($store) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success create new data!',
-                'data' => $data,
-            ]);
+        if ($product) {
+            return redirect()->route('product')
+                ->with('success', 'Success add product!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed create data!',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed add product!');
         }
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProductRequest $request)
-    {
-        //
+        // if ($store) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success create new data!',
+        //         'data' => $data,
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed create data!',
+        //     ]);
+        // }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product, $id)
+    public function show(Product $product, $id): View
     {
-        $product = Product::where('id', $id)->first();
-
-        if ($product) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Success show data!',
-                'data' => $product,
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed find the data!',
-                'data' => '',
-            ], 404);
-        }
+        return view('pages.product-edit', [
+            'product' => $product::where('id', $id)->first(),
+        ]);
     }
 
     /**
@@ -121,18 +118,26 @@ class ProductController extends Controller
             'price' => $request->price,
         ]);
 
-        if ($update) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success updating data !',
-                'data' => $product::where('id', $id)->get(),
-            ]);
+        if ($product) {
+            return redirect()->route('product')
+                ->with('success', 'Success update product!');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed updating data !',
-            ]);
+            return redirect()->back()
+                ->with('failed', 'Failed update product!');
         }
+
+        // if ($update) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success updating data !',
+        //         'data' => $product::where('id', $id)->get(),
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed updating data !',
+        //     ]);
+        // }
     }
 
     /**
