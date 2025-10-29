@@ -30,7 +30,7 @@ if(document.getElementById('alert')) {
     let alertDiv = document.getElementById('alert')
     setTimeout(() => {
         alertDiv.remove();
-    }, 5000);
+    }, 2500);
 }
 
 // Verify navbar blur on scroll

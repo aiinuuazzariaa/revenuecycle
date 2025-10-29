@@ -2255,7 +2255,7 @@ if (document.getElementById('alert')) {
   var alertDiv = document.getElementById('alert');
   setTimeout(function () {
     alertDiv.remove();
-  }, 5000);
+  }, 2500);
 } // Verify navbar blur on scroll
 
 

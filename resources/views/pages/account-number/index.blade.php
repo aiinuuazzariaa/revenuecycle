@@ -10,10 +10,13 @@
                         <h6>Account Number Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('account-number-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                            data-original-title="Add account number">
+                        <a href="{{ route('account-number-create') }}" class="text-secondary font-weight-bold text-xs"
+                            data-toggle="tooltip" data-original-title="Add account number">
                             <span class="btn btn-xs text-sm bg-gradient-warning">Add Account Number</span>
                         </a>
+                    </div>
+                    <div id="alert">
+                        @include('components.alert')
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -50,8 +53,9 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $acc->account_name }}</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('account-number-show', $acc->id) }}" class="text-secondary font-weight-bold text-xs"
-                                                    data-toggle="tooltip" data-original-title="Edit account number">
+                                                <a href="{{ route('account-number-show', $acc->id) }}"
+                                                    class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                    data-original-title="Edit account number">
                                                     <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                                 </a>
                                                 <a href="javascript:;" class="text-secondary font-weight-bold text-xs"

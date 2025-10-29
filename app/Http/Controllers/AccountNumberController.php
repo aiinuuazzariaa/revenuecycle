@@ -16,7 +16,7 @@ class AccountNumberController extends Controller
     public function index(AccountNumber $account_number): View
     {
         $data = $account_number::all();
-        return view('pages.account-number', compact('data'));
+        return view('pages.account-number.index', compact('data'));
 
         // return response()->json([
         //     'success' => true,
@@ -30,7 +30,7 @@ class AccountNumberController extends Controller
      */
     public function create(): View
     {
-        return view('pages.account-number-create');
+        return view('pages.account-number.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class AccountNumberController extends Controller
                 ->with('success', 'Success add account number!');
         } else {
             return redirect()->back()
-                ->with('failed', 'Failed add account number!');
+                ->with('error', 'Failed add account number!');
         }
 
         // if ($account_number) {
@@ -84,7 +84,7 @@ class AccountNumberController extends Controller
      */
     public function show(AccountNumber $account_number, $id): View
     {
-        return view('pages.account-number-edit', [
+        return view('pages.account-number.edit', [
             'account' => $account_number::where('id', $id)->first(),
         ]);
     }
@@ -124,7 +124,7 @@ class AccountNumberController extends Controller
                 ->with('success', 'Success update account number!');
         } else {
             return redirect()->back()
-                ->with('failed', 'Failed update account number!');
+                ->with('error', 'Failed update account number!');
         }
 
         // if ($update) {
@@ -153,7 +153,7 @@ class AccountNumberController extends Controller
                 ->with('success', 'Success delete account number!');
         } else {
             return redirect()->back()
-                ->with('failed', 'Failed delete account number!');
+                ->with('error', 'Failed delete account number!');
         }
 
         // if ($delete) {

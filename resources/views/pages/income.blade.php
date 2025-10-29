@@ -73,7 +73,7 @@
                                                 <p class="text-sm font-weight-bold mb-0">Rp. {{ $income->total }}</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                                <a class="text-secondary font-weight-bold text-xs"
                                                     data-toggle="tooltip" data-original-title="Edit payment">
                                                     <span class="btn btn-xs text-sm bg-gradient-success">{{ $income->payment_type }}</span>
                                                 </a>
