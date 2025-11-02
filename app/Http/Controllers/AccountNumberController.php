@@ -84,7 +84,7 @@ class AccountNumberController extends Controller
      */
     public function show(AccountNumber $account_number, $id): View
     {
-        return view('pages.account-number.edit', [
+        return view('pages.account-number.update', [
             'account' => $account_number::where('id', $id)->first(),
         ]);
     }

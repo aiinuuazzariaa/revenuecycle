@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
@@ -16,7 +17,7 @@ class CustomerController extends Controller
     public function index(Customer $customer): View
     {
         $data = $customer::all();
-        return view('pages.customer', compact('data'));
+        return view('pages.customer.index', compact('data'));
 
         // return response()->json([
         //     'success' => true,
@@ -30,13 +31,13 @@ class CustomerController extends Controller
      */
     public function create(): View
     {
-        return view('pages.customer-create');
+        return view('pages.customer.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SRequest $request, Customer $customer)
+    public function store(Request $request, Customer $customer)
     {
         $validator = Validator::make(
             $request->all(),
@@ -83,7 +84,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer, $id): View
     {
-         return view('pages.customer-edit', [
+         return view('pages.customer.update', [
             'customer' => $customer::where('id', $id)->first(),
         ]);
     }

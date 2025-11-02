@@ -13,6 +13,7 @@ use App\Models\Pihutang;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class IncomeController extends Controller
 {
@@ -22,7 +23,7 @@ class IncomeController extends Controller
     public function index(Income $income)
     {
         $data = $income::all();
-        return view('pages.income', compact('data'));
+        return view('pages.income.index', compact('data'));
         // return response()->json([
         //     'success' => true,
         //     'message' => 'Show all data',
@@ -38,7 +39,7 @@ class IncomeController extends Controller
         $account_numbers = AccountNumber::all();
         $customers = Customer::all();
         $products = Product::all();
-        return view('pages.income-create', compact('account_numbers', 'customers', 'products'));
+        return view('pages.income.create', compact('account_numbers', 'customers', 'products'));
     }
 
     /**

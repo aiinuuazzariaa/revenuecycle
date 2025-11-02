@@ -39,8 +39,8 @@
                                         <span class="btn btn-xs text-sm bg-gradient-danger">Cancel</span>
                                     </a>
                                     <button type="submit" class="btn btn-xs text-sm bg-gradient-success ms-2"
-                                        data-original-title="Save account number">
-                                        Save
+                                        data-original-title="Update account number">
+                                        Update
                                     </button>
                                 </div>
                             </div>

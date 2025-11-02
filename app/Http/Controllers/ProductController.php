@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
@@ -16,7 +17,7 @@ class ProductController extends Controller
     public function index(Product $product): View
     {
         $data = $product::all();
-        return view('pages.product', compact('data'));
+        return view('pages.product.index', compact('data'));
 
         // return response()->json([
         //     'success' => true,
@@ -30,7 +31,7 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        return view('pages.product-create');
+        return view('pages.product.create');
     }
 
     /**
@@ -83,7 +84,7 @@ class ProductController extends Controller
      */
     public function show(Product $product, $id): View
     {
-        return view('pages.product-edit', [
+        return view('pages.product.update', [
             'product' => $product::where('id', $id)->first(),
         ]);
     }
