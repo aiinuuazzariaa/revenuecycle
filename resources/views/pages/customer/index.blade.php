@@ -15,6 +15,9 @@
                             <span class="btn btn-xs text-sm bg-gradient-warning">Add Customer</span>
                         </a>
                     </div>
+                    <div id="alert">
+                        @include('components.alert')
+                    </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
