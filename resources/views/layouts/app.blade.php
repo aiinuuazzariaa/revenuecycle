@@ -33,12 +33,12 @@
 </head>
 
 <body class="{{ $class ?? '' }}">
-    {{-- @guest
+    @guest
         @yield('content')
-    @endguest --}}
+    @endguest
 
-    {{-- @auth
-        @if (in_array(request()->route()->getName(), ['login', 'register']))
+    @auth
+        @if (in_array(request()->route()->getName(), ['login', 'auth.register']))
             @yield('content')
         @else
             @if (!in_array(request()->route()->getName(), ['profile']))
@@ -56,14 +56,14 @@
                 @yield('content')
             </main>
             @endif
-            @endauth --}}
-    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+            @endauth
+    {{-- <div class="min-height-300 bg-primary position-absolute w-100"></div>
 
     @include('layouts.navbars.auth.sidenav')
 
     <main class="main-content border-radius-lg">
         @yield('content')
-    </main>
+    </main> --}}
 
     <!--   Core JS Files   -->
     <script src="/assets/js/core/popper.min.js"></script>

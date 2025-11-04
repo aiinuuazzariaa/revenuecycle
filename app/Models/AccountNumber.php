@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountNumber extends Model
 {
-    /** @use HasFactory<\Database\Factories\AccountNumberFactory> */
     use HasFactory;
+
     protected $table = 'account_numbers';
 
     protected $guarded = ['id'];

@@ -84,7 +84,7 @@ class AccountNumberController extends Controller
      */
     public function show(AccountNumber $account_number, $id): View
     {
-        return view('pages.account-number.update', [
+        return view('pages.account-number.edit', [
             'account' => $account_number::where('id', $id)->first(),
         ]);
     }
@@ -100,7 +100,7 @@ class AccountNumberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAccountNumberRequest $request, AccountNumber $account_number, $id)
+    public function update(Request $request, AccountNumber $account_number, $id)
     {
         $validator = Validator::make(
             $request->all(),

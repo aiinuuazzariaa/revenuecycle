@@ -1,18 +1,18 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Product'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'User'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Product Table</h6>
+                        <h6>User Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('product-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                            data-original-title="Add product">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Product</span>
+                        <a href="{{ route('user-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                            data-original-title="Add user">
+                            <span class="btn btn-xs text-sm bg-gradient-warning">Add User</span>
                         </a>
                     </div>
                     <div id="alert">
@@ -26,37 +26,40 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             No</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Product</th>
+                                            Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Price</th>
+                                            Email</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Password</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($data as $product)
+                                    @foreach($data as $user)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm ps-2">{{ $product->id }}</h6>
+                                                    <h6 class="mb-0 text-sm ps-2">{{ $user->id }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ $product->product_name }}</p>
+                                            <p class="text-sm font-weight-bold mb-0">{{ $user->user_name }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ $product->price }}000</p>
+                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ $user->price }}000</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('product-show', $product->id) }}" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Edit product">
+                                            <a href="{{ route('user-show', $user->id) }}" class="text-secondary font-weight-bold text-xs"
+                                                data-toggle="tooltip" data-original-title="Edit user">
                                                 <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                             </a>
                                             <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Delete product">
+                                                data-toggle="tooltip" data-original-title="Delete user">
                                                 <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
                                             </a>
                                         </td>
