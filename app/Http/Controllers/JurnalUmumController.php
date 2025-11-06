@@ -5,15 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreJurnalUmumRequest;
 use App\Http\Requests\UpdateJurnalUmumRequest;
 use App\Models\JurnalUmum;
+use Illuminate\View\View;
+
 
 class JurnalUmumController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(JurnalUmum $jurnalUmum): View
     {
-        //
+        $data = $jurnalUmum::all();
+        return view('pages.jurnal-umum.index', compact('data'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Show all data',
+        //     'data' => $income::all(),
+        // ], 200);
     }
 
     /**

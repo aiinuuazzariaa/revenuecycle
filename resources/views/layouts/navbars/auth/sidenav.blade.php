@@ -13,7 +13,7 @@
         <ul class="navbar-nav">
             <li class="nav-item mt-3 d-flex align-items-center">
                 <div class="ps-4">
-                    <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Account Pages</h6>
+                    <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">All Pages</h6>
                 </div>
             </li>
             <li class="nav-item">
@@ -74,6 +74,21 @@
                         <i class="ni ni-books text-danger text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Product</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3 d-flex align-items-center">
+                <div class="ps-4">
+                    <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Report</h6>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'jurnal-umum' ? 'active' : '' }}"
+                    href="{{ route('jurnal-umum') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-laptop text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Jurnal Umum</span>
                 </a>
             </li>
             <li class="nav-item mt-3 d-flex align-items-center">

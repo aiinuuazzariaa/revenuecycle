@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Models;
+use App\Models\AccountNumber;
 use App\Models\Income;
 use App\Models\Pihutang;
-use App\Models\BukuBesar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,8 +25,9 @@ class JurnalUmum extends Model
     {
         return $this->belongsTo(Pihutang::class);
     }
-    public function bukuBesar()
+
+    public function accountNumber()
     {
-        return $this->hasOne(BukuBesar::class);
+        return $this->belongsTo(AccountNumber::class);
     }
 }

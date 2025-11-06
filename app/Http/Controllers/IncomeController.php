@@ -8,7 +8,6 @@ use App\Models\AccountNumber;
 use App\Models\Income;
 use App\Models\Customer;
 use App\Models\JurnalUmum;
-use App\Models\Pihutang;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -115,9 +114,72 @@ class IncomeController extends Controller
         }
 
         if (strtolower($request->payment_type) == 'credit') {
-            $piutang = $total - $nominal;
+            $pihutang = $total - $nominal;
             Customer::where('id', $request->customer_id)
-                ->increment('pihutang_balance', $piutang);
+                ->increment('pihutang_balance', $pihutang);
+        }
+
+        $COA = [
+            'kas' => '1101 - Kas',
+            'pihutang' => '1201 - Pihutang',
+            'pendapatan_utama' => '4101 - Pendapatan Utama',
+            'pendapatan_lainnya' => '4201 - Pendapatan Lainnya',
+        ];
+
+        if (strtolower($request->payment_type) == 'cash') {
+
+            $acc = AccountNumber::find($request->account_number_id);
+            $selectedCode = $acc->account_number;
+            $pendapatanAkun = $selectedCode == $COA['pendapatan_utama']
+                ? $COA['pendapatan_utama']
+                : $COA['pendapatan_lainnya'];
+
+            JurnalUmum::create([
+                'income_id' => $store->id,
+                'account_number_id' => $COA['kas'],
+                'name' => $request->income_name,
+                'debit' => $total,
+                'credit' => null,
+            ]);
+
+            JurnalUmum::create([
+                'income_id' => $store->id,
+                'account_number_id' => $pendapatanAkun,
+                'name' => $request->income_name,
+                'debit' => null,
+                'credit' => $total,
+            ]);
+        }
+
+        if (strtolower($request->payment_type) == 'credit') {
+
+            if ($nominal > 0) {
+                JurnalUmum::create([
+                    'income_id' => $store->id,
+                    'account_number_id' => $COA['kas'],
+                    'name' => $request->income_name,
+                    'debit' => $nominal,
+                    'credit' => null,
+                ]);
+            }
+
+            if ($pihutang > 0) {
+                JurnalUmum::create([
+                    'income_id' => $store->id,
+                    'account_number_id' => $COA['pihutang'],
+                    'name' => $request->income_name,
+                    'debit' => $pihutang,
+                    'credit' => null,
+                ]);
+            }
+
+            JurnalUmum::create([
+                'income_id' => $store->id,
+                'account_number_id' => $COA['pendapatan_utama'],
+                'name' => $request->income_name,
+                'debit' => null,
+                'credit' => $total,
+            ]);
         }
 
         if ($income) {

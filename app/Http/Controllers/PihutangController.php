@@ -8,6 +8,7 @@ use App\Models\AccountNumber;
 use App\Models\Customer;
 use App\Models\Income;
 use App\Models\Pihutang;
+use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -60,7 +61,6 @@ class PihutangController extends Controller
             $number = $lastNumber + 1;
         }
 
-        // Hasil: 1201-20251106-0001
         return $prefix . str_pad($number, 4, '0', STR_PAD_LEFT);
     }
 
@@ -81,6 +81,7 @@ class PihutangController extends Controller
         }
 
         $transaction_number = $this->generatePihutangNumber($request->account_number_id);
+        $nominal = preg_replace('/[^0-9]/', '', $request->nominal ?? 0);
 
         $store = $pihutang::create([
             'transaction_number' => $transaction_number,
@@ -100,6 +101,27 @@ class PihutangController extends Controller
                 $customer->save();
             }
         }
+
+        $COA = [
+            'kas' => '1101 - Kas',
+            'pihutang' => '1201 - Pihutang',
+        ];
+
+        JurnalUmum::create([
+            'income_id' => $store->id,
+            'account_number_id' => $COA['kas'],
+            'name' => $request->pihutang_name,
+            'debit' => $nominal,
+            'credit' => null,
+        ]);
+
+        JurnalUmum::create([
+            'income_id' => $store->id,
+            'account_number_id' => $COA['pihutang'],
+            'name' => $request->pihutang_name,
+            'debit' => null,
+            'credit' => $nominal,
+        ]);
 
         if ($pihutang) {
             return redirect()->route('pihutang')

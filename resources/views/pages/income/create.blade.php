@@ -87,7 +87,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="total" class="form-control-label">Total Price</label>
+                                            <label for="total" class="form-control-label">Total</label>
                                             <input class="form-control" type="text" name="total" id="total"
                                                 placeholder="Rp 0" readonly>
                                             <input type="hidden" name="total" id="total_raw">
@@ -187,6 +187,10 @@
 
                 totalInput.readOnly = false;
                 totalInput.value = "";
+                totalInput.addEventListener("input", function() {
+                    let clean = this.value.replace(/[^0-9]/g, "");
+                    document.getElementById('total_raw').value = clean;
+                });
             } else {
                 productSection.style.display = "block";
                 priceSection.style.display = "block";

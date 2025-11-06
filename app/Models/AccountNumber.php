@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Income;
 use App\Models\Pihutang;
+use App\Models\JurnalUmum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +24,10 @@ class AccountNumber extends Model
     public function pihutangs()
     {
         return $this->hasMany(Pihutang::class);
+    }
+
+    public function jurnalUmum()
+    {
+        return $this->hasMany(JurnalUmum::class);
     }
 }

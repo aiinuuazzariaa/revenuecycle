@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jurnal_umums', function (Blueprint $table) {
             $table->id();
+            $table->string('account_number_id');
             $table->foreignId('income_id')->constrained()->onDelete('cascade');
             $table->foreignId('pihutang_id')->nullable()->change();
             $table->string('name');
