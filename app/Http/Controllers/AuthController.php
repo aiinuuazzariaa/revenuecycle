@@ -12,7 +12,6 @@ class AuthController extends Controller
      */
     public function index()
     {
-        // Jika user sudah login, arahkan ke dashboard
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
@@ -25,35 +24,29 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Validasi input dari form login
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Cek apakah email & password cocok
         if (Auth::attempt($credentials)) {
-            // Regenerasi session untuk keamanan
             $request->session()->regenerate();
 
-            // Redirect ke halaman yang dituju (atau dashboard)
             return redirect()->intended(route('dashboard'));
         }
 
-        // Jika gagal login
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'email' => 'Incorrect email or password!',
         ])->onlyInput('email');
     }
 
     /**
-     * Logout user dari sistem.
+     * Logout
      */
     public function logout(Request $request)
     {
         Auth::logout();
 
-        // Hapus semua session
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

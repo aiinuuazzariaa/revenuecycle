@@ -100,7 +100,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product, $id)
+    public function update(Request $request, Product $product, $id)
     {
         $validator = Validator::make(
             $request->all(),

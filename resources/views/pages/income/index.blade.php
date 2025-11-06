@@ -10,8 +10,8 @@
                         <h6>Income Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('income-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                            data-original-title="Add income">
+                        <a href="{{ route('income-create') }}" class="text-secondary font-weight-bold text-xs"
+                            data-toggle="tooltip" data-original-title="Add income">
                             <span class="btn btn-xs text-sm bg-gradient-warning">Add Income</span>
                         </a>
                     </div>
@@ -25,7 +25,8 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Transaction Number</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -45,6 +46,12 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Payment Type</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Nominal</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Payment Due Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,28 +65,45 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->income_invoice_number }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $income->income_invoice_number }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->AccountNumber->account_name }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $income->AccountNumber->account_name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->Customer->customer_name }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $income->Customer->customer_name }}</p>
                                             </td>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">{{ $income->income_name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->Product->product_name }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ optional($income->Product)->product_name ?? '-' }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ $income->total }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($income->total, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a class="text-secondary font-weight-bold text-xs"
-                                                    data-toggle="tooltip" data-original-title="Edit payment">
-                                                    <span class="btn btn-xs text-sm bg-gradient-success">{{ $income->payment_type }}</span>
-                                                </a>
+                                                @if ($income->payment_type == 'cash')
+                                                    <span class="btn btn-xs text-sm bg-gradient-success text-white">
+                                                        {{ ucfirst($income->payment_type) }}
+                                                    </span>
+                                                @else
+                                                    <span class="btn btn-xs text-sm bg-gradient-danger text-white">
+                                                        {{ ucfirst($income->payment_type) }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($income->nominal, 0, ',', '.') }}.000</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $income->payment_due_date }}
+                                                </p>
                                             </td>
                                         </tr>
                                     @endforeach

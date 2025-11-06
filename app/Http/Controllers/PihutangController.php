@@ -104,7 +104,7 @@ class PihutangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePihutangRequest $request, Pihutang $pihutang)
+    public function update(Request $request, Pihutang $pihutang)
     {
         $validator = Validator::make(
             $request->all(),
@@ -120,7 +120,7 @@ class PihutangController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $update = $d
+        $update = $pihutang
             ->update([
                 'account_number_id' => $request->account_number_id,
                 'income_id' => $request->income_id,
@@ -132,7 +132,7 @@ class PihutangController extends Controller
             return Response()->json([
                 'status' => 1,
                 'message' => 'Success updating data !',
-                'data' => $Income,
+                'data' => $pihutang,
             ]);
         } else {
             return Response()->json([

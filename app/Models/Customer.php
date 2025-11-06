@@ -18,4 +18,12 @@ class Customer extends Model
     {
         return $this->hasMany(Income::class);
     }
+
+    public function getPiutangBalanceAttribute()
+    {
+        return $this->incomes()
+            ->where('payment_type', 'Credit')
+            ->selectRaw('SUM(total - nominal) as balance')
+            ->value('balance') ?? 0;
+    }
 }

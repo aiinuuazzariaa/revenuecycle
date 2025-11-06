@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pihutangs', function (Blueprint $table) {
+        Schema::create('pihutang_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_number_id')->default(1201);
             $table->foreignId('income_id')->constrained()->onDelete('cascade');
-            $table->bigInteger('total')->nullable();
-            $table->enum('status', ['paid', 'unpaid']);
+            $table->bigInteger('nominal')->nullable();
             $table->timestamps();
         });
     }

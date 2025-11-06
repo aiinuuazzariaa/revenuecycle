@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIncomeRequest;
 use App\Http\Requests\UpdateIncomeRequest;
 use App\Models\AccountNumber;
-use App\Models\BukuBesar;
 use App\Models\Income;
 use App\Models\Customer;
 use App\Models\JurnalUmum;
@@ -20,7 +19,7 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Income $income)
+    public function index(Income $income): View
     {
         $data = $income::all();
         return view('pages.income.index', compact('data'));
@@ -34,7 +33,7 @@ class IncomeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Income $income)
+    public function create(Request $request, Income $income): View
     {
         $account_numbers = AccountNumber::all();
         $customers = Customer::all();
@@ -52,7 +51,12 @@ class IncomeController extends Controller
         $account = AccountNumber::find($account_number_id);
         $account_number = $account ? $account->account_number : '0000';
 
-        $lastIncome = Income::where('income_invoice_number', 'like', $account_number.'-'.$date.'-'.$product_id.'-%')
+        $product = Product::find($product_id);
+        $productCode = $product ? str_pad($product->id, 2, '0', STR_PAD_LEFT) : '00';
+
+        $prefix = $account_number . '-' . $date . '-' . $productCode . '-';
+
+        $lastIncome = Income::where('income_invoice_number', 'like', $prefix . '%')
             ->orderBy('id', 'desc')
             ->first();
 
@@ -63,20 +67,18 @@ class IncomeController extends Controller
             $number = $lastNumber + 1;
         }
 
-        return $account_number.'-'.$date.'-'.$product_id.'-'.str_pad($number, 4, '0', STR_PAD_LEFT);
+        return $prefix . str_pad($number, 4, '0', STR_PAD_LEFT);
     }
 
 
-    public function store(StoreIncomeRequest $request)
+    public function store(Request $request, Income $income)
     {
-        return view('pages.income-store');
         $validator = Validator::make(
             $request->all(),
             [
                 'account_number_id' => 'required',
                 'customer_id' => 'required',
                 'income_name' => 'required',
-                'product_id' => 'required',
                 'total' => 'required',
                 'payment_type' => 'required',
             ]
@@ -86,98 +88,58 @@ class IncomeController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $transaction_number = $this->generateTransactionNumber($request->account_number_id, $request->product_id);
+        $total = preg_replace('/[^0-9]/', '', $request->total);
+        $nominal = preg_replace('/[^0-9]/', '', $request->nominal ?? 0);
 
-        $debit = $request->total;
-        $credit = $request->total;
-
-        if ($request->payment_type === 'credit') {
-            $debit = $request->pihutang_nominal ?? 0;
-        }
+        $transaction_number = $this->generateTransactionNumber($request->account_number_id, $request->product_id ?? null);
 
         $store = $income::create([
             'income_invoice_number' => $transaction_number,
             'account_number_id' => $request->account_number_id,
             'customer_id' => $request->customer_id,
             'income_name' => $request->income_name,
-            'product_id' => $request->product_id,
-            'total' => $request->total,
-            'payment_type' => $request->payment_type,
-            'debit' => $debit,
-            'credit' => $credit,
+            'product_id' => $request->product_id ?: null,
+            'total' =>  $request->total,
+            'payment_type' => strtolower($request->payment_type),
+            'nominal' => $request->nominal ?: 0,
+            'payment_due_date' => $request->payment_due_date ?: null,
         ]);
 
         $data = $income::where('income_name', '=', $request->income_name)->get();
         $account = AccountNumber::find($request->account_number_id);
-
-        if ($store && $account) {
-            $date = now();
-
-            $account_number_id = $store->account_number_id;
-            $income_name = $store->income_name;
-            $debit = $store->debit ?? 0;
-            $credit = $store->credit ?? 0;
-            $total = $store->total;
-
-            $jurnal = JurnalUmum::create([
-                'income_id' => $store->id,
-                'name' => $income_name,
-                'debit' => $debit,
-                'credit' => $credit,
+        if ($request->payment_type == 'credit') {
+            $request->merge([
+                'nominal' => $request->total,
+                'payment_due_date' => null
             ]);
-
-            $previousSaldo = BukuBesar::orderByDesc('id')->value('saldo') ?? 0;
-            BukuBesar::create([
-                'jurnal_umum_id' => $jurnal->id,
-                'name' => $income_name,
-                'debit' => $debit,
-                'credit' => $credit,
-                'saldo' => $previousSaldo + (float) $credit,
-            ]);
-
-            if ($request->payment_type === 'credit') {
-                $paidAmount = $request->paid_amount ?? 0;
-                $pihutangAmount = $request->total - $paidAmount;
-
-                Pihutang::create([
-                    'account_number_id' => 1201,
-                    'income_id' => $store->id,
-                    'total' => $pihutangAmount,
-                    'status' => 'unpaid',
-                ]);
-
-                if ($pihutangAmount > 0) {
-                    JurnalUmum::create([
-                        'income_id' => $store->id,
-                        'name' => $income_name,
-                        'debit' => $pihutangAmount,
-                        'credit' => $total,
-                    ]);
-                }
-
-                $previousSaldo = BukuBesar::orderByDesc('id')->value('saldo') ?? 0;
-                BukuBesar::create([
-                    'jurnal_umum_id' => $jurnal->id,
-                    'name' => $income_name,
-                    'debit' => $pihutangAmount,
-                    'credit' => $total,
-                    'saldo' => $previousSaldo + $pihutangAmount,
-                ]);
-            }
-
-            if ($store) {
-                return Response()->json([
-                    'status' => 1,
-                    'message' => 'Success create new data!',
-                    'data' => $data,
-                ]);
-            } else {
-                return Response()->json([
-                    'status' => 0,
-                    'message' => 'Failed create data!',
-                ]);
-            }
         }
+
+        if (strtolower($request->payment_type) == 'credit') {
+            $piutang = $total - $nominal;
+            Customer::where('id', $request->customer_id)
+                ->increment('pihutang_balance', $piutang);
+        }
+
+        if ($income) {
+            return redirect()->route('income')
+                ->with('success', 'Success add income!');
+        } else {
+            return redirect()->back()
+                ->with('failed', 'Failed add income!');
+        }
+
+        // if ($store) {
+        //     return Response()->json([
+        //         'status' => 1,
+        //         'message' => 'Success create new data!',
+        //         'data' => $data,
+        //     ]);
+        // } else {
+        //     return Response()->json([
+        //         'status' => 0,
+        //         'message' => 'Failed create data!',
+        //     ]);
+        // }
     }
 
     /**
@@ -215,47 +177,7 @@ class IncomeController extends Controller
      */
     public function update(UpdateIncomeRequest $request, Income $income, $id)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'account_number_id' => 'required',
-                'customer_id' => 'required',
-                'income_name' => 'required',
-                'product_id' => 'required',
-                'total' => 'required',
-                'payment_type' => 'required',
-                'debit' => 'required',
-                'credit' => 'required',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return Response()->json($validator->errors());
-        }
-
-        $update = $income::where('id', $id)->update([
-            'account_number_id' => $request->account_number_id,
-            'customer_id' => $request->customer_id,
-            'income_name' => $request->income_name,
-            'product_id' => $request->product_id,
-            'total' => $request->total,
-            'payment_type' => $request->payment_type,
-            'debit' => $request->debit,
-            'credit' => $request->credit,
-        ]);
-
-        if ($update) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success updating data !',
-                'data' => $income::where('id', $id)->get(),
-            ]);
-        } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed updating data !',
-            ]);
-        }
+        //
     }
 
     /**

@@ -30,6 +30,9 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Phone</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Pihutang Balance</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
@@ -49,6 +52,9 @@
                                         </td>
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">{{ $customer->phone }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($customer->pihutang_balance, 0, ',', '.') }}.000</p>
                                         </td>
                                         <td class="align-middle">
                                             <a href="{{ route('customer-show', $customer->id) }}" class="text-secondary font-weight-bold text-xs"

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("customer_name");
             $table->string("phone");
+            $table->bigInteger("pihutang_balance")->default(0);
             $table->timestamps();
         });
     }

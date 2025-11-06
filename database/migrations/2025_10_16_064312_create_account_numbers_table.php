@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("account_number");
             $table->string("account_name");
+            $table->bigInteger("total")->default(0);
             $table->timestamps();
         });
     }

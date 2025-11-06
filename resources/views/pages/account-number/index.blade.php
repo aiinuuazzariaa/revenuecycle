@@ -33,6 +33,9 @@
                                             Account Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Total</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -51,6 +54,9 @@
                                             </td>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">{{ $acc->account_name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($acc->total, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td class="align-middle">
                                                 <a href="{{ route('account-number-show', $acc->id) }}"

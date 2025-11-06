@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreignId('account_number_id')->constrained()->onDelete('cascade');
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->string('income_name');
-            $table->foreignId('product_id')->nullable()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->bigInteger('total')->nullable();
             $table->enum('payment_type', ['cash', 'credit'])->default('cash');
-            $table->bigInteger('debit')->nullable();
-            $table->bigInteger('credit')->nullable();
+            $table->bigInteger('nominal')->nullable();
+            $table->date('payment_due_date')->nullable();
             $table->timestamps();
         });
     }

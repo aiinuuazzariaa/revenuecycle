@@ -100,7 +100,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer, $id)
+    public function update(Request $request, Customer $customer, $id)
     {
         $validator = Validator::make(
             $request->all(),
