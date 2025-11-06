@@ -60,7 +60,7 @@ class IncomeController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-        if (! $lastIncome) {
+        if (!$lastIncome) {
             $number = 1;
         } else {
             $lastNumber = (int) substr($lastIncome->income_invoice_number, -4);
