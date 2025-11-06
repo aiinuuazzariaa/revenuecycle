@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountNumberController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\PihutangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 
@@ -32,6 +33,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/create-income', [IncomeController::class, 'create'])->name('income-create');
     Route::post('/create-income', [IncomeController::class, 'store'])->name('income-store');
 
+    Route::get('/pihutang', [PihutangController::class, 'index'])->name('pihutang');
+    Route::get('/create-pihutang', [PihutangController::class, 'create'])->name('pihutang-create');
+    Route::post('/create-pihutang', [PihutangController::class, 'store'])->name('pihutang-store');
+
     Route::get('/product', [ProductController::class, 'index'])->name('product');
     Route::get('/create-product', [ProductController::class, 'create'])->name('product-create');
     Route::post('/create-product', [ProductController::class, 'store'])->name('product-store');
@@ -47,4 +52,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/income', [IncomeController::class, 'index'])->name('income');
     Route::get('/create-income', [IncomeController::class, 'create'])->name('income-create');
     Route::post('/create-income', [IncomeController::class, 'store'])->name('income-store');
+
+    Route::get('/pihutang', [PihutangController::class, 'index'])->name('pihutang');
+    Route::get('/create-pihutang', [PihutangController::class, 'create'])->name('pihutang-create');
+    Route::post('/create-pihutang', [PihutangController::class, 'store'])->name('pihutang-store');
 });

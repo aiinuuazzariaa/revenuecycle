@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pihutang_payments', function (Blueprint $table) {
+        Schema::create('pihutangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_number_id')->default(1201);
+            $table->string('transaction_number')->unique();
             $table->foreignId('income_id')->constrained()->onDelete('cascade');
+            $table->string('pihutang_name');
             $table->bigInteger('nominal')->nullable();
             $table->timestamps();
         });
