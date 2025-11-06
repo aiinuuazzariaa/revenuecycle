@@ -102,7 +102,7 @@
                                                 <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($income->nominal, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->payment_due_date }}
+                                                <p class="text-sm font-weight-bold mb-0">{{ $income->payment_due_date ? \Carbon\Carbon::parse($income->payment_due_date)->format('d-m-Y') : '-' }}
                                                 </p>
                                             </td>
                                         </tr>
