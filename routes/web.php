@@ -7,6 +7,7 @@ use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\PihutangController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\JurnalUmumController;
+use App\Http\Controllers\BukuBesarController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/auth/login', [AuthController::class, 'index'])->middleware('guest')->name('login');
@@ -45,6 +46,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/update-product/{id}', [ProductController::class, 'update'])->name('product-update');
 
     Route::get('/jurnal-umum', [JurnalUmumController::class, 'index'])->name('jurnal-umum');
+
+    Route::get('/buku-besar', [BukuBesarController::class, 'index'])->name('buku-besar');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {

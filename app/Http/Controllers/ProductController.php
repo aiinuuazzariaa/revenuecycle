@@ -84,7 +84,7 @@ class ProductController extends Controller
      */
     public function show(Product $product, $id): View
     {
-        return view('pages.product.update', [
+        return view('pages.product.edit', [
             'product' => $product::where('id', $id)->first(),
         ]);
     }

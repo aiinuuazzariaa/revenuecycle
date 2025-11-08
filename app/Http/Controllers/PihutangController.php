@@ -102,14 +102,11 @@ class PihutangController extends Controller
             }
         }
 
-        $COA = [
-            'kas' => '1101 - Kas',
-            'pihutang' => '1201 - Pihutang',
-        ];
+        $COA = AccountNumber::pluck('id', 'account_number')->toArray();
 
         JurnalUmum::create([
             'income_id' => $store->id,
-            'account_number_id' => $COA['kas'],
+            'account_number_id' => $COA['1101'],
             'name' => $request->pihutang_name,
             'debit' => $nominal,
             'credit' => null,
@@ -117,7 +114,7 @@ class PihutangController extends Controller
 
         JurnalUmum::create([
             'income_id' => $store->id,
-            'account_number_id' => $COA['pihutang'],
+            'account_number_id' => $COA['1201'],
             'name' => $request->pihutang_name,
             'debit' => null,
             'credit' => $nominal,

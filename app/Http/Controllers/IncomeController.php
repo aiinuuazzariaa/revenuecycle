@@ -8,6 +8,7 @@ use App\Models\AccountNumber;
 use App\Models\Income;
 use App\Models\Customer;
 use App\Models\JurnalUmum;
+use App\Models\BukuBesar;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -119,24 +120,21 @@ class IncomeController extends Controller
                 ->increment('pihutang_balance', $pihutang);
         }
 
-        $COA = [
-            'kas' => '1101 - Kas',
-            'pihutang' => '1201 - Pihutang',
-            'pendapatan_utama' => '4101 - Pendapatan Utama',
-            'pendapatan_lainnya' => '4201 - Pendapatan Lainnya',
-        ];
+        $COA = AccountNumber::pluck('id', 'account_number')->toArray();
+
+        $acc = AccountNumber::find($request->account_number_id);
+
+        $pendapatanAkun = $COA['4101'];
+
+        if ($request->account_number_id == $COA['4201']) {
+            $pendapatanAkun = $COA['4201'];
+        }
 
         if (strtolower($request->payment_type) == 'cash') {
 
-            $acc = AccountNumber::find($request->account_number_id);
-            $selectedCode = $acc->account_number;
-            $pendapatanAkun = $selectedCode == $COA['pendapatan_utama']
-                ? $COA['pendapatan_utama']
-                : $COA['pendapatan_lainnya'];
-
             JurnalUmum::create([
                 'income_id' => $store->id,
-                'account_number_id' => $COA['kas'],
+                'account_number_id' => $COA['1101'],
                 'name' => $request->income_name,
                 'debit' => $total,
                 'credit' => null,
@@ -156,7 +154,7 @@ class IncomeController extends Controller
             if ($nominal > 0) {
                 JurnalUmum::create([
                     'income_id' => $store->id,
-                    'account_number_id' => $COA['kas'],
+                    'account_number_id' => $COA['1101'],
                     'name' => $request->income_name,
                     'debit' => $nominal,
                     'credit' => null,
@@ -166,7 +164,7 @@ class IncomeController extends Controller
             if ($pihutang > 0) {
                 JurnalUmum::create([
                     'income_id' => $store->id,
-                    'account_number_id' => $COA['pihutang'],
+                    'account_number_id' => $COA['1201'],
                     'name' => $request->income_name,
                     'debit' => $pihutang,
                     'credit' => null,
@@ -175,13 +173,33 @@ class IncomeController extends Controller
 
             JurnalUmum::create([
                 'income_id' => $store->id,
-                'account_number_id' => $COA['pendapatan_utama'],
+                'account_number_id' => $pendapatanAkun,
                 'name' => $request->income_name,
                 'debit' => null,
                 'credit' => $total,
             ]);
         }
 
+        $jurnal = JurnalUmum::where('income_id', $store->id)->get();
+
+        foreach ($jurnal as $row) {
+
+            $lastSaldo = BukuBesar::where('account_number_id', $row->account_number_id)
+                ->orderBy('id', 'DESC')
+                ->value('saldo') ?? 0;
+
+            $newSaldo = $lastSaldo + (($row->debit ?? 0) - ($row->credit ?? 0));
+
+            BukuBesar::create([
+                'account_number_id' => $row->account_number_id,
+                'income_id' => $row->income_id,
+                'pihutang_id' => $row->pihutang_id ?? null,
+                'name' => $row->name,
+                'debit' => $row->debit,
+                'credit' => $row->credit,
+                'saldo' => $newSaldo,
+            ]);
+        }
         if ($income) {
             return redirect()->route('income')
                 ->with('success', 'Success add income!');

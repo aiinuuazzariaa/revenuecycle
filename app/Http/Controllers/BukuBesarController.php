@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreJurnalUmumRequest;
-use App\Http\Requests\UpdateJurnalUmumRequest;
-use App\Models\JurnalUmum;
+use App\Models\BukuBesar;
+use App\Models\AccountNumber;
+use App\Http\Requests\StoreBukuBesarRequest;
+use App\Http\Requests\UpdateBukuBesarRequest;
 use Illuminate\View\View;
 
-
-class JurnalUmumController extends Controller
+class BukuBesarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(JurnalUmum $jurnalUmum): View
+    public function index(BukuBesar $bukuBesar): View
     {
-        $data = $jurnalUmum::all();
-        $totalDebit = JurnalUmum::sum('debit');
-        $totalCredit = JurnalUmum::sum('credit');
-        return view('pages.jurnal-umum.index', compact('data', 'totalDebit', 'totalCredit'));
+        $accounts = AccountNumber::with(['bukuBesar' => function ($q) {
+            $q->orderBy('created_at', 'asc');
+        }])->orderBy('account_number')->get();
+        return view('pages.buku-besar.index', compact('accounts'));
         // return response()->json([
         //     'success' => true,
         //     'message' => 'Show all data',
@@ -37,7 +37,7 @@ class JurnalUmumController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJurnalUmumRequest $request)
+    public function store(StoreBukuBesarRequest $request)
     {
         //
     }
@@ -45,7 +45,7 @@ class JurnalUmumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(JurnalUmum $jurnalUmum)
+    public function show(BukuBesar $bukuBesar)
     {
         //
     }
@@ -53,7 +53,7 @@ class JurnalUmumController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JurnalUmum $jurnalUmum)
+    public function edit(BukuBesar $bukuBesar)
     {
         //
     }
@@ -61,7 +61,7 @@ class JurnalUmumController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJurnalUmumRequest $request, JurnalUmum $jurnalUmum)
+    public function update(UpdateBukuBesarRequest $request, BukuBesar $bukuBesar)
     {
         //
     }
@@ -69,7 +69,7 @@ class JurnalUmumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JurnalUmum $jurnalUmum)
+    public function destroy(BukuBesar $bukuBesar)
     {
         //
     }

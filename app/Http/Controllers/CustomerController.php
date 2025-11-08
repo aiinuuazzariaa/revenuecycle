@@ -84,7 +84,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer, $id): View
     {
-         return view('pages.customer.update', [
+         return view('pages.customer.edit', [
             'customer' => $customer::where('id', $id)->first(),
         ]);
     }

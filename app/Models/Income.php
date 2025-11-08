@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Pihutang;
 use App\Models\JurnalUmum;
+use App\Models\BukuBesar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,7 @@ class Income extends Model
 
     public function accountNumber()
     {
-        return $this->belongsTo(AccountNumber::class);
+        return $this->belongsTo(AccountNumber::class,  'account_number_id');
     }
 
     public function customer()
@@ -40,6 +41,11 @@ class Income extends Model
 
     public function jurnalUmum()
     {
-        return $this->hasOne(JurnalUmum::class);
+        return $this->hasMany(JurnalUmum::class);
+    }
+
+    public function bukuBesar()
+    {
+        return $this->hasMany(BukuBesar::class);
     }
 }

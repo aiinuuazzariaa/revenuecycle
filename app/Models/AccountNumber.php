@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Income;
 use App\Models\Pihutang;
 use App\Models\JurnalUmum;
+use App\Models\BukuBesar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,11 @@ class AccountNumber extends Model
 
     public function jurnalUmum()
     {
-        return $this->hasMany(JurnalUmum::class);
+        return $this->hasMany(JurnalUmum::class, 'account_number_id', 'id')->orderBy('created_at');
+    }
+
+    public function bukuBesar()
+    {
+        return $this->hasMany(BukuBesar::class, 'account_number_id', 'id');
     }
 }

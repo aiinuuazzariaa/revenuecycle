@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jurnal_umums', function (Blueprint $table) {
+        Schema::create('buku_besars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_number_id')->constrained('account_numbers')->onDelete('cascade');
-            $table->foreignId('income_id')->constrained()->onDelete('cascade');
-            $table->foreignId('pihutang_id')->nullable()->change();
+            $table->foreignId('income_id')->constrained('incomes')->onDelete('cascade');
+            $table->foreignId('pihutang_id')->nullable()->constrained('pihutangs')->onDelete('cascade');
             $table->string('name');
             $table->bigInteger('debit')->nullable();
             $table->bigInteger('credit')->nullable();
+            $table->bigInteger('saldo')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jurnal_umums');
+        Schema::dropIfExists('buku_besars');
     }
 };

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\AccountNumber;
 use App\Models\Income;
 use App\Models\Pihutang;
+use App\Models\BukuBesar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +20,7 @@ class JurnalUmum extends Model
 
     public function income()
     {
-        return $this->belongsTo(Income::class);
+        return $this->belongsTo(Income::class, 'income_id', 'id');
     }
 
     public function pihutang()
@@ -28,6 +30,11 @@ class JurnalUmum extends Model
 
     public function accountNumber()
     {
-        return $this->belongsTo(AccountNumber::class);
+        return $this->belongsTo(AccountNumber::class,  'account_number_id');
+    }
+
+    public function bukuBesar()
+    {
+        return $this->hasMany(BukuBesar::class);
     }
 }

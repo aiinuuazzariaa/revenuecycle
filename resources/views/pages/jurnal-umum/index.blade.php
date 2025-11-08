@@ -19,9 +19,14 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             No</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Date</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Account Number</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Account Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Name</th>
@@ -45,19 +50,37 @@
                                             </td>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">
-                                                    {{ $jurnalUmum->account_number_id }}</p>
+                                                    {{ preg_match('/\d{8}/', $jurnalUmum->income->income_invoice_number, $matches)
+                                                        ? \Carbon\Carbon::createFromFormat('Ymd', $matches[0])->format('d-m-Y')
+                                                        : '-' }}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $jurnalUmum->accountNumber->account_number }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $jurnalUmum->accountNumber->account_name }}</p>
                                             </td>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">{{ $jurnalUmum->name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($jurnalUmum->debit, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($jurnalUmum->debit, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($jurnalUmum->credit, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($jurnalUmum->credit, 0, ',', '.') }}.000</p>
                                             </td>
                                         </tr>
                                     @endforeach
+                                    <tr class="text-success font-weight-bold">
+                                        <td colspan="3" class="text-center">Total</td>
+                                        <td>Rp. {{ number_format($totalDebit, 0, ',', '.') }}.000</td>
+                                        <td>Rp. {{ number_format($totalCredit, 0, ',', '.') }}.000</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
