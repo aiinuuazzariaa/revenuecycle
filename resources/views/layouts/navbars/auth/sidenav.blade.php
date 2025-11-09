@@ -78,6 +78,41 @@
             </li>
             <li class="nav-item mt-3 d-flex align-items-center">
                 <div class="ps-4">
+                    <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Permission</h6>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'permissions' ? 'active' : '' }}"
+                    href="{{ route('permissions') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-books text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Permissions</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'roles' ? 'active' : '' }}"
+                    href="{{ route('roles') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-books text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Roles</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'user' ? 'active' : '' }}"
+                    href="{{ route('user') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-books text-danger text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">User</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3 d-flex align-items-center">
+                <div class="ps-4">
                     <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Report</h6>
                 </div>
             </li>
@@ -86,7 +121,7 @@
                     href="{{ route('jurnal-umum') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-laptop text-primary text-sm opacity-10"></i>
+                        <i class="ni ni-laptop text-success text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Jurnal Umum</span>
                 </a>
@@ -96,7 +131,7 @@
                     href="{{ route('buku-besar') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-laptop text-primary text-sm opacity-10"></i>
+                        <i class="ni ni-laptop text-success text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Buku Besar</span>
                 </a>
@@ -111,7 +146,7 @@
                     href="{{ route('logout') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-book-bookmark text-warning text-sm opacity-10"></i>
+                        <i class="fas fa-right-from-bracket text-warning text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Logout</span>
                 </a>

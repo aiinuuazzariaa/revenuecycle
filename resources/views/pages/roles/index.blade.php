@@ -1,18 +1,18 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Account Number'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Role'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Account Number Table</h6>
+                        <h6>Role Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('account-number-create') }}" class="text-secondary font-weight-bold text-xs"
+                        <a href="{{ route('role-create') }}" class="text-secondary font-weight-bold text-xs"
                             data-toggle="tooltip" data-original-title="Add account number">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Account Number</span>
+                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Role</span>
                         </a>
                     </div>
                     <div id="alert">
@@ -27,45 +27,33 @@
                                             No</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Account Number</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Account Name</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Total</th>
+                                            Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $acc)
+                                    @foreach ($roles as $role)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm ps-2">{{ $acc->id }}</h6>
+                                                        <h6 class="mb-0 text-sm ps-2">{{ $role->id }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $acc->account_number }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $acc->account_name }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($acc->total, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $role->name }}</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('account-number-edit', $acc->id) }}"
+                                                <a href="{{ route('role-edit', $role->id) }}"
                                                     class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                    data-original-title="Edit account number">
+                                                    data-original-title="Edit role">
                                                     <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                                 </a>
                                                 <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                    data-toggle="tooltip" data-original-title="Delete account number">
+                                                    data-toggle="tooltip" data-original-title="Delete role">
                                                     <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
                                                 </a>
                                             </td>
@@ -73,6 +61,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="mt-3 px-3">
+                            {{ $roles->links() }}
                         </div>
                     </div>
                 </div>

@@ -82,19 +82,19 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product, $id): View
+    public function show()
     {
-        return view('pages.product.edit', [
-            'product' => $product::where('id', $id)->first(),
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product, $id): View
     {
-        //
+        return view('pages.product.edit', [
+            'product' => $product::where('id', $id)->first(),
+        ]);
     }
 
     /**

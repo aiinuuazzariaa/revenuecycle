@@ -1,40 +1,49 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Edit Product'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Edit User'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
-                    <form class="card-header pb-0" role="form" action="{{ route('product-update', $product->id) }}"
+                    <form class="card-header pb-0" role="form" action="{{ route('user-update', $user->id) }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div>
-                            <h6 class="mb-0">Edit Product</h6>
+                            <h6 class="mb-0">Edit User</h6>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="product_name" class="form-control-label">Product Name</label>
-                                            <input class="form-control" type="text" name="product_name"
-                                                value="{{ old('product_name', $product->product_name) }}"
-                                                placeholder="Enter product name">
+                                            <label for="name" class="form-control-label">Name</label>
+                                            <input class="form-control" type="text" name="name"
+                                                value="{{ old('name', $user->name) }}"
+                                                placeholder="Enter name">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="price" class="form-control-label">Price</label>
-                                            <input class="form-control" type="text" name="price"
-                                                value="{{ old('price', $product->price) }}" placeholder="Enter price">
+                                            <label for="email" class="form-control-label">Email</label>
+                                            <input class="form-control" type="text" name="email"
+                                                value="{{ old('email', $user->email) }}" placeholder="Enter email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="password" class="form-control-label">Password</label>
+                                            <input class="form-control" type="text" name="password"
+                                                value="{{ old('password', $user->password) }}" placeholder="Enter password">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end" style="margin-right: 20px;">
-                                    <a href="{{ route('product') }}" class="text-secondary font-weight-bold text-xs"
-                                        data-toggle="tooltip" data-original-title="Cancel product">
+                                    <a href="{{ route('user') }}" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Cancel user">
                                         <span class="btn btn-xs text-sm bg-gradient-danger">Cancel</span>
                                     </a>
                                     <button type="submit" class="btn btn-xs text-sm bg-gradient-success ms-2"

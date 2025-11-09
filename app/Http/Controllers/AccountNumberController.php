@@ -82,19 +82,19 @@ class AccountNumberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountNumber $account_number, $id): View
+    public function show()
     {
-        return view('pages.account-number.edit', [
-            'account' => $account_number::where('id', $id)->first(),
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AccountNumber $account_number)
+    public function edit(AccountNumber $account_number, $id): View
     {
-        //
+        return view('pages.account-number.edit', [
+            'account' => $account_number::where('id', $id)->first(),
+        ]);
     }
 
     /**

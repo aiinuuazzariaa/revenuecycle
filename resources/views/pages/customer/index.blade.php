@@ -57,7 +57,7 @@
                                             <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($customer->pihutang_balance, 0, ',', '.') }}.000</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('customer-show', $customer->id) }}" class="text-secondary font-weight-bold text-xs"
+                                            <a href="{{ route('customer-edit', $customer->id) }}" class="text-secondary font-weight-bold text-xs"
                                                 data-toggle="tooltip" data-original-title="Edit customer">
                                                 <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                             </a>

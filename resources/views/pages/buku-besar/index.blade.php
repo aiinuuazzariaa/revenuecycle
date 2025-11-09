@@ -52,13 +52,13 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($acc->bukuBesar as $bukuBesar)
-                                            {{-- @php
+                                            @php
                                                 if (in_array($acc->account_number, ['1101', '1201'])) {
                                                     $runningSaldo += ($bukuBesar->debit ?? 0) - ($bukuBesar->credit ?? 0);
                                                 } else {
                                                     $runningSaldo += ($bukuBesar->credit ?? 0) - ($bukuBesar->debit ?? 0);
                                                 }
-                                            @endphp --}}
+                                            @endphp
                                             <tr>
                                                 <td>
                                                     <div class="d-flex px-2 py-1">

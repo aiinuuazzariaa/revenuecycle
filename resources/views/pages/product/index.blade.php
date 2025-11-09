@@ -48,10 +48,10 @@
                                             <p class="text-sm font-weight-bold mb-0">{{ $product->product_name }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ $product->price }}000</p>
+                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($product->price, 0, ',', '.') }}000</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('product-show', $product->id) }}" class="text-secondary font-weight-bold text-xs"
+                                            <a href="{{ route('product-edit', $product->id) }}" class="text-secondary font-weight-bold text-xs"
                                                 data-toggle="tooltip" data-original-title="Edit product">
                                                 <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                             </a>

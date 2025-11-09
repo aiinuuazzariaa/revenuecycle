@@ -4,39 +4,34 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class PermissionsSeeder extends Seeder
 {
     /**
-     * Create the initial roles and permissions.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'admin']);
-        $cashierRole = Role::create(['name' => 'cashier']);
+        $permissions = [
+            'permission.view',
+            'permission.create',
+            'permission.edit',
+            'permission.delete',
+            'role.view',
+            'role.create',
+            'role.edit',
+            'role.delete',
+            'user.view',
+            'user.viewTrash',
+            'user.create',
+            'user.edit',
+            'user.delete',
+            'user.restore',
+            'user.forceDelete',
+        ];
 
-        $viewAnyAccountNumberPermission = Permission::create(['name' => 'viewAny account number']);
-        $viewAccountNumberPermission = Permission::create(['name' => 'view account number']);
-        $createAccountNumberPermission = Permission::create(['name' => 'create account number']);
-        $updateAccountNumberPermission = Permission::create(['name' => 'update account number']);
-        $restoreAccountNumberPermission = Permission::create(['name' => 'restore account number']);
-        $deleteAccountNumberPermission = Permission::create(['name' => 'delete account number']);
-        $forceDeleteAccountNumberPermission = Permission::create(['name' => 'forceDelete account number']);
-
-        $adminRole->givePermissionTo($viewAnyAccountNumberPermission);
-        $adminRole->givePermissionTo($viewAccountNumberPermission);
-        $adminRole->givePermissionTo($createAccountNumberPermission);
-        $adminRole->givePermissionTo($updateAccountNumberPermission);
-        $adminRole->givePermissionTo($restoreAccountNumberPermission);
-        $adminRole->givePermissionTo($deleteAccountNumberPermission);
-        $adminRole->givePermissionTo($forceDeleteAccountNumberPermission);
-
-        // $s->givePermissionTo($createAccountNumberPermission);
-        // $s->givePermissionTo($updateAccountNumberPermission);
-
-        // $user = User::find(1);
-        // $role = Role::findByName('admin');
-        // $user->assignRole($role);
+        foreach ($permissions as $key => $permission) {
+            Permission::create(['name' => $permission]);
+        }
     }
 }

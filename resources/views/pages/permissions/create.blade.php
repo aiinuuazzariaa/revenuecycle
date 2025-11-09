@@ -1,45 +1,44 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Edit Customer'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Add Account Number'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
-                    <form class="card-header pb-0" role="form" action="{{ route('customer-update', $customer->id) }}"
-                        method="POST" enctype="multipart/form-data">
+                    <form class="card-header pb-0" role="form" action="{{ route('account-number-store') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <div>
-                            <h6 class="mb-0">Edit Customer</h6>
+                            <h6 class="mb-0">Add Account Number</h6>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="customer_name" class="form-control-label">Customer Name</label>
-                                            <input class="form-control" type="text" name="customer_name"
-                                                value="{{ old('customer_name', $customer->customer_name) }}"
-                                                placeholder="Enter customer name">
+                                            <label for="account_number" class="form-control-label">Account
+                                                Number</label>
+                                            <input class="form-control" type="text" name="account_number"
+                                                value="{{ old('account_number') }}" placeholder="Enter account number">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="phone" class="form-control-label">Phone</label>
-                                            <input class="form-control" type="text" name="phone"
-                                                value="{{ old('phone', $customer->phone) }}" placeholder="Enter phone">
+                                            <label for="account_name" class="form-control-label">Account Name</label>
+                                            <input class="form-control" type="text" name="account_name"
+                                                value="{{ old('account_name') }}" placeholder="Enter account name">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end" style="margin-right: 20px;">
-                                    <a href="{{ route('customer') }}" class="text-secondary font-weight-bold text-xs"
-                                        data-toggle="tooltip" data-original-title="Cancel customer">
+                                    <a href="{{ route('account-number') }}" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Cancel account number">
                                         <span class="btn btn-xs text-sm bg-gradient-danger">Cancel</span>
                                     </a>
                                     <button type="submit" class="btn btn-xs text-sm bg-gradient-success ms-2"
-                                        data-original-title="Update customer">
-                                        Update
+                                        data-original-title="Save account number">
+                                        Save
                                     </button>
                                 </div>
                             </div>

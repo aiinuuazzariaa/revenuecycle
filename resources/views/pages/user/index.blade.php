@@ -48,13 +48,16 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ $user->user_name }}</p>
+                                            <p class="text-sm font-weight-bold mb-0">{{ $user->name }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ $user->price }}000</p>
+                                            <p class="text-sm font-weight-bold mb-0">{{ $user->email }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{ str_repeat('•', strlen($user->password)) }}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('user-show', $user->id) }}" class="text-secondary font-weight-bold text-xs"
+                                            <a href="{{ route('user-edit', $user->id) }}" class="text-secondary font-weight-bold text-xs"
                                                 data-toggle="tooltip" data-original-title="Edit user">
                                                 <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                             </a>

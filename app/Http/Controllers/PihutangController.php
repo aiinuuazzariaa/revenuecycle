@@ -177,40 +177,7 @@ class PihutangController extends Controller
      */
     public function update(Request $request, Pihutang $pihutang)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'account_number_id' => 'required',
-                'income_id' => 'required',
-                'total' => 'required',
-                'status' => 'required',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return Response()->json($validator->errors());
-        }
-
-        $update = $pihutang
-            ->update([
-                'account_number_id' => $request->account_number_id,
-                'income_id' => $request->income_id,
-                'total' => $request->total,
-                'status' => $request->status,
-            ]);
-
-        if ($update) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success updating data !',
-                'data' => $pihutang,
-            ]);
-        } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed updating data !',
-            ]);
-        }
+        //
     }
 
     /**

@@ -82,19 +82,19 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer, $id): View
+    public function show()
     {
-         return view('pages.customer.edit', [
-            'customer' => $customer::where('id', $id)->first(),
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $customer, $id): View
     {
-        //
+        return view('pages.customer.edit', [
+            'customer' => $customer::where('id', $id)->first(),
+        ]);
     }
 
     /**

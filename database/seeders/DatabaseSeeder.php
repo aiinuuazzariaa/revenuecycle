@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use Database\Seeders\PermissionsSeeder;
+use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\AccountNumberSeeder;
+use Database\Seeders\ProductSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionsSeeder::class,
+            RoleSeeder::class,
             UserSeeder::class,
             AccountNumberSeeder::class,
             ProductSeeder::class,
