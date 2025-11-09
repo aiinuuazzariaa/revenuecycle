@@ -181,7 +181,6 @@ class IncomeController extends Controller
         }
 
         $jurnal = JurnalUmum::where('income_id', $store->id)->get();
-        $totalPendapatan = JurnalUmum::where('income_id', $store->id)->sum('credit');
 
         foreach ($jurnal as $row) {
 
@@ -189,17 +188,34 @@ class IncomeController extends Controller
                 ->orderBy('id', 'DESC')
                 ->value('saldo') ?? 0;
 
-            $newSaldo = $lastSaldo + (($row->debit ?? 0) - ($row->credit ?? 0));
+            $noAkun = trim($row->AccountNumber->account_number);
+
+            $akunDebit = ['1101', '1201'];
+            $akunCredit = ['4101', '4201'];
+
+            $debit = $row->debit ?? 0;
+            $credit = $row->credit ?? 0;
+
+            if (in_array($noAkun, $akunDebit)) {
+                $newSaldo = $lastSaldo + $debit - $credit;
+            } elseif (in_array($noAkun, $akunCredit)) {
+                $newSaldo = $lastSaldo + $credit - $debit;
+            } else {
+                $newSaldo = $lastSaldo + $debit - $credit;
+            }
 
             BukuBesar::create([
                 'account_number_id' => $row->account_number_id,
                 'income_id' => $row->income_id,
                 'pihutang_id' => $row->pihutang_id ?? null,
                 'name' => $row->name,
-                'debit' => $row->debit,
-                'credit' => $row->credit,
+                'debit' => $debit,
+                'credit' => $credit,
                 'saldo' => $newSaldo,
             ]);
+
+            AccountNumber::where('id', $row->account_number_id)
+                ->update(['total' => $newSaldo]);
         }
 
         if ($income) {

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Income;
 use App\Models\Pihutang;
 use App\Models\JurnalUmum;
+use App\Models\BukuBesar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -20,7 +21,7 @@ class PihutangController extends Controller
      */
     public function index(Pihutang $pihutang): View
     {
-        $data = $pihutang::all();
+        $data = $pihutang::paginate(10);
         return view('pages.pihutang.index', compact('data'));
         // return response()->json([
         //     'success' => true,
@@ -119,6 +120,41 @@ class PihutangController extends Controller
             'debit' => null,
             'credit' => $nominal,
         ]);
+
+        foreach (
+            [
+                [
+                    'account_number_id' => $COA['1101'],
+                    'name' => $request->pihutang_name,
+                    'debit' => $nominal,
+                    'credit' => 0
+                ],
+                [
+                    'account_number_id' => $COA['1201'],
+                    'name' => $request->pihutang_name,
+                    'debit' => 0,
+                    'credit' => $nominal
+                ]
+            ] as $entry
+        ) {
+            $lastSaldo = BukuBesar::where('account_number_id', $entry['account_number_id'])
+                ->orderBy('id', 'desc')
+                ->value('saldo') ?? 0;
+
+            $newSaldo = $lastSaldo + ($entry['debit'] - $entry['credit']);
+
+            BukuBesar::create([
+                'account_number_id' => $entry['account_number_id'],
+                'income_id' => $store->id,
+                'name' => $entry['name'],
+                'debit' => $entry['debit'],
+                'credit' => $entry['credit'],
+                'saldo' => $newSaldo
+            ]);
+
+            AccountNumber::where('id', $entry['account_number_id'])
+                ->update(['total' => $newSaldo]);
+        }
 
         if ($pihutang) {
             return redirect()->route('pihutang')
