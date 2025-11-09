@@ -14,14 +14,14 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $products = [
-            ['product_name' => 'Laundry Reguler (Kg)', 'price' => 7.000],
-            ['product_name' => 'Laundry Express (Kg)', 'price' => 10.000],
-            ['product_name' => 'Cuci (Kg)', 'price' => 5.000],
-            ['product_name' => 'Setrika (Kg)', 'price' => 5.000],
-            ['product_name' => 'Bed Cover (pcs)', 'price' => 20.000],
-            ['product_name' => 'Cuci Sepatu (pasang)', 'price' => 20.000],
-            ['product_name' => 'Cuci Karpet (m²)', 'price' => 20.000],
-            ['product_name' => 'Cuci Gorden (m²)', 'price' => 20.000]
+            ['product_name' => 'Laundry Reguler (Kg)', 'price' => 7],
+            ['product_name' => 'Laundry Express (Kg)', 'price' => 10],
+            ['product_name' => 'Cuci (Kg)', 'price' => 5],
+            ['product_name' => 'Setrika (Kg)', 'price' => 5],
+            ['product_name' => 'Bed Cover (pcs)', 'price' => 20],
+            ['product_name' => 'Cuci Sepatu (pasang)', 'price' => 20],
+            ['product_name' => 'Cuci Karpet (m²)', 'price' => 20],
+            ['product_name' => 'Cuci Gorden (m²)', 'price' => 20]
         ];
 
         foreach ($products as $product) {
