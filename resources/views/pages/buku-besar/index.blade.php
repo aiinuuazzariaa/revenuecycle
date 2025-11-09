@@ -4,6 +4,9 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Buku Besar'])
     <div class="container-fluid py-4">
         @foreach ($accounts as $acc)
+            @if ($acc->bukuBesar->isEmpty())
+                @continue
+            @endif
             @php
                 $runningSaldo = 0;
                 $no = 1;
@@ -54,9 +57,11 @@
                                         @foreach ($acc->bukuBesar as $bukuBesar)
                                             @php
                                                 if (in_array($acc->account_number, ['1101', '1201'])) {
-                                                    $runningSaldo += ($bukuBesar->debit ?? 0) - ($bukuBesar->credit ?? 0);
+                                                    $runningSaldo +=
+                                                        ($bukuBesar->debit ?? 0) - ($bukuBesar->credit ?? 0);
                                                 } else {
-                                                    $runningSaldo += ($bukuBesar->credit ?? 0) - ($bukuBesar->debit ?? 0);
+                                                    $runningSaldo +=
+                                                        ($bukuBesar->credit ?? 0) - ($bukuBesar->debit ?? 0);
                                                 }
                                             @endphp
                                             <tr>

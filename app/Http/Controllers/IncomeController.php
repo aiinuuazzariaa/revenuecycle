@@ -181,6 +181,7 @@ class IncomeController extends Controller
         }
 
         $jurnal = JurnalUmum::where('income_id', $store->id)->get();
+        $totalPendapatan = JurnalUmum::where('income_id', $store->id)->sum('credit');
 
         foreach ($jurnal as $row) {
 
@@ -200,6 +201,7 @@ class IncomeController extends Controller
                 'saldo' => $newSaldo,
             ]);
         }
+
         if ($income) {
             return redirect()->route('income')
                 ->with('success', 'Success add income!');
