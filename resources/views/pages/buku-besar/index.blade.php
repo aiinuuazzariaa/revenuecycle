@@ -105,7 +105,7 @@
                                             </tr>
                                         @endforeach
                                         <tr class="text-success font-weight-bold">
-                                            <td colspan="5" class="text-center">Total</td>
+                                            <td colspan="5" class="text-end">Total</td>
                                             <td></td>
                                             <td></td>
                                             <td>Rp. {{ number_format($runningSaldo, 0, ',', '.') }}.000</td>

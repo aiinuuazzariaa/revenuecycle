@@ -77,7 +77,7 @@
                                         </tr>
                                     @endforeach
                                     <tr class="text-success font-weight-bold">
-                                        <td colspan="3" class="text-center">Total</td>
+                                        <td colspan="5" class="text-end">Total</td>
                                         <td>Rp. {{ number_format($totalDebit, 0, ',', '.') }}.000</td>
                                         <td>Rp. {{ number_format($totalCredit, 0, ',', '.') }}.000</td>
                                     </tr>
