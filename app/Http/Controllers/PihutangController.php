@@ -21,7 +21,7 @@ class PihutangController extends Controller
      */
     public function index(Pihutang $pihutang): View
     {
-        $data = $pihutang::paginate(10);
+        $data = $pihutang::all();
         return view('pages.pihutang.index', compact('data'));
         // return response()->json([
         //     'success' => true,

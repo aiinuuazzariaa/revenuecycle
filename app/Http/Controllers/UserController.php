@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -25,20 +26,22 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('pages.user.create');
+        $allRoles = Role::all();
+        return view('pages.user.create', compact('allRoles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required',
                 'email' => 'required',
-                'password' => 'required|unique:users,password|min:8',
+                'password' => 'required|string|same:confirm_password|min:8',
+                'roles' => 'required',
             ]
         );
 
@@ -46,14 +49,15 @@ class UserController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $store = $user::create([
+        $store = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
         ]);
 
-        $data = $user::where('name', '=', $request->name)->get();
-        if ($user) {
+        $store->assignRole($request->roles);
+
+        if ($store) {
             return redirect()->route('user')
                 ->with('success', 'Success add user!');
         } else {
@@ -73,24 +77,26 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user, $id): View
+    public function edit($id): View
     {
-        return view('pages.user.edit', [
-            'user' => $user::where('id', $id)->first(),
-        ]);
+        $allRoles = Role::all();
+        $userRoles = User::find($id)->roles->pluck('name')->toArray();
+        $user = User::where('id', $id)->first();
+        return view('pages.user.edit', compact('allRoles', 'userRoles', 'user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user, $id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required',
                 'email' => 'required',
-                'password' => 'required|unique:users,password|min:8',
+                'password' => 'same:confirm_password',
+                'roles' => 'required',
             ]
         );
 
@@ -98,39 +104,36 @@ class UserController extends Controller
             return Response()->json($validator->errors());
         }
 
-        $update = $user::where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
+        $user = User::findOrFail($id);
 
-        ]);
-
-        if ($user) {
-            return redirect()->route('user')
-                ->with('success', 'Success update user!');
-        } else {
-            return redirect()->back()
-                ->with('failed', 'Failed update user!');
+        // Kalau password kosong, jangan diupdate
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
         }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        // Update roles
+        $user->syncRoles($request->roles);
+
+        return redirect()->route('user')
+            ->with('success', 'Success update user!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user, $id)
+    public function destroy($id)
     {
-        $delete = $user::where('id', $id)->delete();
+        $delete = User::where('id', $id)->delete();
 
         if ($delete) {
-            return Response()->json([
-                'status' => 1,
-                'message' => 'Success delete data !',
-            ]);
+            return redirect()->route('user')->with('success', 'User deleted successfully.');
         } else {
-            return Response()->json([
-                'status' => 0,
-                'message' => 'Failed delete data !',
-            ]);
+            return redirect()->route('user')->with('error', 'Oops! Please try again.');
         }
     }
 }

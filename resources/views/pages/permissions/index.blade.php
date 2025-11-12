@@ -46,16 +46,22 @@
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">{{ $permission->name }}</p>
                                             </td>
-                                            <td class="align-middle">
+                                            <td class="align-middle d-flex gap-1">
                                                 <a href="{{ route('permission-edit', $permission->id) }}"
                                                     class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                                                     data-original-title="Edit permission">
                                                     <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
                                                 </a>
-                                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                    data-toggle="tooltip" data-original-title="Delete permission">
-                                                    <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
-                                                </a>
+                                                <form action="{{ route('permission-destroy', $permission->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
+                                                        data-toggle="tooltip" data-original-title="Delete permission">
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -19,7 +19,9 @@
                                             <select class="form-control" name="income_id" required>
                                                 <option value="">-- Select Invoice Number --</option>
                                                 @foreach ($incomes as $income)
-                                                    <option value="{{ $income->id }}">{{ $income->income_invoice_number }}
+                                                    <option value="{{ $income->id }}">
+                                                        {{ $income->income_invoice_number }}
+                                                        — {{ $income->customer->customer_name ?? 'Not found' }}
                                                     </option>
                                                 @endforeach
                                             </select>

@@ -11,7 +11,7 @@ class BukuBesar extends Model
     use HasFactory;
     protected $table = 'buku_besars';
 
-     protected $fillable = [
+    protected $fillable = [
         'account_number_id',
         'income_id',
         'pihutang_id',
@@ -34,6 +34,11 @@ class BukuBesar extends Model
     public function accountNumber()
     {
         return $this->belongsTo(AccountNumber::class,  'account_number_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class,  'customer_id');
     }
 
     public function jurnalUmum()

@@ -197,17 +197,18 @@ class IncomeController extends Controller
             $credit = $row->credit ?? 0;
 
             if (in_array($noAkun, $akunDebit)) {
-                $newSaldo = $lastSaldo + $debit - $credit;
+                $newSaldo = $lastSaldo + ($debit - $credit);
             } elseif (in_array($noAkun, $akunCredit)) {
-                $newSaldo = $lastSaldo + $credit - $debit;
+                $newSaldo = $lastSaldo + ($credit - $debit);
             } else {
-                $newSaldo = $lastSaldo + $debit - $credit;
+                $newSaldo = $lastSaldo + ($debit - $credit);
             }
 
             BukuBesar::create([
                 'account_number_id' => $row->account_number_id,
                 'income_id' => $row->income_id,
                 'pihutang_id' => $row->pihutang_id ?? null,
+                'customer_id' => $row->Income->customer_id ?? null,
                 'name' => $row->name,
                 'debit' => $debit,
                 'credit' => $credit,

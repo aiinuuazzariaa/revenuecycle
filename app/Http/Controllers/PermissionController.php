@@ -68,9 +68,9 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission, $id)
+    public function destroy($id)
     {
-        $permission::find($id);
+        $permission = Permission::findOrFail($id);
         $permission->delete();
         return redirect()->route('permissions')->with('success', 'Permission deleted successfully.');
     }

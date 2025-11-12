@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Income;
+use App\Models\BukuBesar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,11 @@ class Customer extends Model
     public function incomes()
     {
         return $this->hasMany(Income::class);
+    }
+
+    public function bukuBesar()
+    {
+        return $this->hasMany(BukuBesar::class);
     }
 
     public function getPiutangBalanceAttribute()

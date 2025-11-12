@@ -22,8 +22,8 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
-        return view('pages.roles.create', compact('permissions'));
+        $allPermissions = Permission::all();
+        return view('pages.roles.create', compact('allPermissions'));
     }
 
     /**
@@ -76,9 +76,9 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $roles, $id)
+    public function destroy($id)
     {
-        $roles::find($id);
+        $roles = Role::find($id);
         $roles->delete();
         return redirect()->route('roles')->with('success', 'Role deleted successfully.');
     }

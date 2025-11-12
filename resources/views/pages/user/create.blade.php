@@ -39,6 +39,28 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="confirm_password" class="form-control-label">Confirm
+                                                Password</label>
+                                            <input class="form-control" type="password" name="confirm_password"
+                                                value="{{ old('confirm_password') }}" placeholder="Enter confirm password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="roles" class="form-control-label">Roles</label>
+                                            <br>
+                                            @foreach ($allRoles as $role)
+                                                <input type="checkbox" name="roles[]" value="{{ $role->name }}">
+                                                {{ $role->name }} <br>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-end" style="margin-right: 20px;">
                                     <a href="{{ route('user') }}" class="text-secondary font-weight-bold text-xs"
                                         data-toggle="tooltip" data-original-title="Cancel user">

@@ -52,20 +52,21 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::post('/create-permission', [PermissionController::class, 'store'])->name('permission-store');
     Route::get('/update-permission/{id}', [PermissionController::class, 'edit'])->name('permission-edit');
     Route::put('/update-permission/{id}', [PermissionController::class, 'update'])->name('permission-update');
+    Route::delete('/permissions/{id}', [PermissionController::class, 'destroy'])->name('permission-destroy');
 
     Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
     Route::get('/create-role', [App\Http\Controllers\RolesController::class, 'create'])->name('role-create');
     Route::post('/create-role', [App\Http\Controllers\RolesController::class, 'store'])->name('role-store');
     Route::get('/update-role/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('role-edit');
     Route::put('/update-role/{id}', [App\Http\Controllers\RolesController::class, 'update'])->name('role-update');
-    Route::delete('/delete-role/{id}', [App\Http\Controllers\RolesController::class, 'destroy'])->name('role-destroy');
+    Route::delete('/roles/{id}', [App\Http\Controllers\RolesController::class, 'destroy'])->name('role-destroy');
 
     Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user');
     Route::get('/create-user', [App\Http\Controllers\UserController::class, 'create'])->name('user-create');
     Route::post('/create-user', [App\Http\Controllers\UserController::class, 'store'])->name('user-store');
     Route::get('/update-user/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user-edit');
     Route::put('/update-user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user-update');
-    Route::delete('/delete-user/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user-destroy');
+    Route::delete('/user/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user-destroy');
 
     Route::get('/jurnal-umum', [JurnalUmumController::class, 'index'])->name('jurnal-umum');
 

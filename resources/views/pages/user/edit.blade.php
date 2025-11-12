@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
-                    <form class="card-header pb-0" role="form" action="{{ route('user-update', $user->id) }}"
-                        method="POST" enctype="multipart/form-data">
+                    <form class="card-header pb-0" role="form" action="{{ route('user-update', $user->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div>
@@ -18,8 +18,7 @@
                                         <div class="form-group">
                                             <label for="name" class="form-control-label">Name</label>
                                             <input class="form-control" type="text" name="name"
-                                                value="{{ old('name', $user->name) }}"
-                                                placeholder="Enter name">
+                                                value="{{ old('name', $user->name) }}" placeholder="Enter name">
                                         </div>
                                     </div>
                                 </div>
@@ -36,8 +35,31 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="password" class="form-control-label">Password</label>
-                                            <input class="form-control" type="text" name="password"
-                                                value="{{ old('password', $user->password) }}" placeholder="Enter password">
+                                            <input class="form-control" type="password" name="password"
+                                                placeholder="Enter password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="confirm_password" class="form-control-label">Confirm
+                                                Password</label>
+                                            <input class="form-control" type="password" name="confirm_password"
+                                                placeholder="Enter confirm password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="roles" class="form-control-label">Roles</label>
+                                            <br>
+                                            @foreach ($allRoles as $role)
+                                                <input type="checkbox" name="roles[]" value="{{ $role->name }}"
+                                                    {{ in_array($role->name, $user->roles->pluck('name')->toArray()) ? 'checked' : '' }}>
+                                                {{ $role->name }} <br>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>

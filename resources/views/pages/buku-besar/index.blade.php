@@ -40,6 +40,9 @@
                                                 Name</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Customer Name</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Debit</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -50,10 +53,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $runningSaldo = 0;
-                                            $no = 1;
-                                        @endphp
                                         @foreach ($acc->bukuBesar as $bukuBesar)
                                             @php
                                                 if (in_array($acc->account_number, ['1101', '1201'])) {
@@ -93,7 +92,13 @@
                                                 </td>
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">
-                                                        {{ $bukuBesar->Income->income_name ?? $bukuBesar->name }}</p>
+                                                        {{ $bukuBesar->Income->income_name ?? $bukuBesar->name }}
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm font-weight-bold mb-0">
+                                                        {{ $bukuBesar->Income->Customer->customer_name ?? '-' }}
+                                                    </p>
                                                 </td>
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">Rp.
@@ -113,6 +118,7 @@
                                             <td colspan="5" class="text-end">Total</td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
                                             <td>Rp. {{ number_format($runningSaldo, 0, ',', '.') }}.000</td>
                                         </tr>
                                     </tbody>
@@ -123,6 +129,72 @@
                 </div>
             </div>
         @endforeach
+        @if (isset($piutangPerCustomer) && $piutangPerCustomer->isNotEmpty())
+            @foreach ($piutangPerCustomer as $customerId => $custData)
+                <div class="card mt-4">
+                    <div class="card-header pb-0">
+                        <h6>Pihutang Detail Table -
+                            {{ $custData['customer']->customer_name ?? 'Customer Tidak Diketahui' }}
+                        </h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Tanggal</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Debit</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Credit</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($custData['transaksi'] as $index => $trx)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm ps-2">{{ $index + 1 }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $trx['tanggal'] ?? '-' }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($trx['debit'] ?? 0, 0, ',', '.') }}.000</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($trx['credit'] ?? 0, 0, ',', '.') }}.000</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($trx['saldo'] ?? 0, 0, ',', '.') }}.000</p>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr class="text-success font-weight-bold">
+                                        <td colspan="4" class="text-end">Total</td>
+                                        <td>Rp. {{ number_format($custData['saldo_akhir'] ?? 0, 0, ',', '.') }}.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @endif
         @include('layouts.footers.auth.footer')
     </div>
 @endsection
