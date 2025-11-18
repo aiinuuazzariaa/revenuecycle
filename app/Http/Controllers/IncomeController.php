@@ -207,7 +207,7 @@ class IncomeController extends Controller
             BukuBesar::create([
                 'account_number_id' => $row->account_number_id,
                 'income_id' => $row->income_id,
-                'pihutang_id' => $row->pihutang_id ?? null,
+                'pihutang_id' => null,
                 'customer_id' => $row->Income->customer_id ?? null,
                 'name' => $row->name,
                 'debit' => $debit,
