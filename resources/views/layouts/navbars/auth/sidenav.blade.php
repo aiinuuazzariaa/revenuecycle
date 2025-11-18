@@ -156,7 +156,7 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->can('buku-besar.view'))
+                @if (auth()->user()->can('buku_besar.view'))
                     <li class="nav-item">
                         <a class="nav-link {{ Route::currentRouteName() == 'buku-besar' ? 'active' : '' }}"
                             href="{{ route('buku-besar') }}">
