@@ -10,10 +10,12 @@
                         <h6>Role Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('role-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add account number">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Role</span>
-                        </a>
+                        @can('role.create')
+                            <a href="{{ route('role-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add account number">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Role</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -47,20 +49,24 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $role->name }}</p>
                                             </td>
                                             <td class="align-middle d-flex gap-1">
-                                                <a href="{{ route('role-edit', $role->id) }}"
-                                                    class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                    data-original-title="Edit role">
-                                                    <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                                </a>
-                                                <form action="{{ route('role-destroy', $role->id) }}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
-                                                        data-toggle="tooltip" data-original-title="Delete role">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                @can('role.edit')
+                                                    <a href="{{ route('role-edit', $role->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit role">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('role.delete')
+                                                    <form action="{{ route('role-destroy', $role->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
+                                                            data-toggle="tooltip" data-original-title="Delete role">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

@@ -10,10 +10,12 @@
                         <h6>Income Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('income-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add income">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Income</span>
-                        </a>
+                        @can('income.create')
+                            <a href="{{ route('income-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add income">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Income</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -99,10 +101,12 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($income->nominal, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($income->nominal, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $income->payment_due_date ? \Carbon\Carbon::parse($income->payment_due_date)->format('d-m-Y') : '-' }}
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $income->payment_due_date ? \Carbon\Carbon::parse($income->payment_due_date)->format('d-m-Y') : '-' }}
                                                 </p>
                                             </td>
                                         </tr>

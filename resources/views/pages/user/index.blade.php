@@ -10,10 +10,12 @@
                         <h6>User Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('user-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add user">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add User</span>
-                        </a>
+                        @can('user.create')
+                            <a href="{{ route('user-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add user">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add User</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -64,20 +66,24 @@
                                                 @endif
                                             </td>
                                             <td class="align-middle d-flex gap-1">
-                                                <a href="{{ route('user-edit', $user->id) }}"
-                                                    class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                    data-original-title="Edit user">
-                                                    <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                                </a>
-                                                <form action="{{ route('user-destroy', $user->id) }}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
-                                                        data-toggle="tooltip" data-original-title="Delete role">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                @can('user.edit')
+                                                    <a href="{{ route('user-edit', $user->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit user">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('user.delete')
+                                                    <form action="{{ route('user-destroy', $user->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
+                                                            data-toggle="tooltip" data-original-title="Delete role">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

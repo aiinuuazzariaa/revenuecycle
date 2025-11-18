@@ -10,10 +10,12 @@
                         <h6>Product Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('product-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                            data-original-title="Add product">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Product</span>
-                        </a>
+                        @can('product.create')
+                            <a href="{{ route('product-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add product">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Product</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -25,42 +27,50 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Product</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Price</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($data as $product)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm ps-2">{{ $product->id }}</h6>
+                                    @foreach ($data as $product)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm ps-2">{{ $product->id }}</h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ $product->product_name }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($product->price, 0, ',', '.') }}.000</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="{{ route('product-edit', $product->id) }}" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Edit product">
-                                                <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                            </a>
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Delete product">
-                                                <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $product->product_name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($product->price, 0, ',', '.') }}.000</p>
+                                            </td>
+                                            <td class="align-middle">
+                                                @can('product.edit')
+                                                    <a href="{{ route('product-edit', $product->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit product">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('product.delete')
+                                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                                        data-toggle="tooltip" data-original-title="Delete product">
+                                                        <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
+                                                    </a>
+                                                @endcan
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

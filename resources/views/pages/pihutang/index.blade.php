@@ -10,10 +10,12 @@
                         <h6>Pihutang Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('pihutang-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add pihutang">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Pihutang</span>
-                        </a>
+                        @can('pihutang.create')
+                            <a href="{{ route('pihutang-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add pihutang">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Pihutang</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -61,7 +63,8 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $pihutang->pihutang_name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($pihutang->nominal, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($pihutang->nominal, 0, ',', '.') }}.000</p>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -10,10 +10,12 @@
                         <h6>Permissions Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('permission-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add account number">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Permission</span>
-                        </a>
+                        @can('permission.create')
+                            <a href="{{ route('permission-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add account number">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Permission</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -47,21 +49,25 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $permission->name }}</p>
                                             </td>
                                             <td class="align-middle d-flex gap-1">
-                                                <a href="{{ route('permission-edit', $permission->id) }}"
-                                                    class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                    data-original-title="Edit permission">
-                                                    <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                                </a>
-                                                <form action="{{ route('permission-destroy', $permission->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
-                                                        data-toggle="tooltip" data-original-title="Delete permission">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                @can('permission.edit')
+                                                    <a href="{{ route('permission-edit', $permission->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit permission">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('permission.delete')
+                                                    <form action="{{ route('permission-destroy', $permission->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-xs text-sm bg-gradient-danger text-white font-weight-bold"
+                                                            data-toggle="tooltip" data-original-title="Delete permission">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

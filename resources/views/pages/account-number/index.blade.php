@@ -10,10 +10,12 @@
                         <h6>Account Number Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('account-number-create') }}" class="text-secondary font-weight-bold text-xs"
-                            data-toggle="tooltip" data-original-title="Add account number">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Account Number</span>
-                        </a>
+                        @can('account_number.create')
+                            <a href="{{ route('account-number-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add account number">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Account Number</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -56,18 +58,23 @@
                                                 <p class="text-sm font-weight-bold mb-0">{{ $acc->account_name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($acc->total, 0, ',', '.') }}.000</p>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($acc->total, 0, ',', '.') }}.000</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('account-number-edit', $acc->id) }}"
-                                                    class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                                    data-original-title="Edit account number">
-                                                    <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                                </a>
-                                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                    data-toggle="tooltip" data-original-title="Delete account number">
-                                                    <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
-                                                </a>
+                                                @can('account_number.edit')
+                                                    <a href="{{ route('account-number-edit', $acc->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit account number">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('account_number.delete')
+                                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                                        data-toggle="tooltip" data-original-title="Delete account number">
+                                                        <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

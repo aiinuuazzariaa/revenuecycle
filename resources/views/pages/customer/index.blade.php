@@ -10,10 +10,12 @@
                         <h6>Customer Table</h6>
                     </div>
                     <div class="d-flex justify-content-end" style="margin-right: 40px;">
-                        <a href="{{ route('customer-create') }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                            data-original-title="Add customer">
-                            <span class="btn btn-xs text-sm bg-gradient-warning">Add Customer</span>
-                        </a>
+                        @can('customer.create')
+                            <a href="{{ route('customer-create') }}" class="text-secondary font-weight-bold text-xs"
+                                data-toggle="tooltip" data-original-title="Add customer">
+                                <span class="btn btn-xs text-sm bg-gradient-warning">Add Customer</span>
+                            </a>
+                        @endcan
                     </div>
                     <div id="alert">
                         @include('components.alert')
@@ -25,7 +27,8 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Customer Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -33,40 +36,47 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Pihutang Balance</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($data as $customer)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm ps-2">{{ $customer->id }}</h6>
+                                    @foreach ($data as $customer)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm ps-2">{{ $customer->id }}</h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ $customer->customer_name }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ $customer->phone }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">Rp. {{ number_format($customer->pihutang_balance, 0, ',', '.') }}.000</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="{{ route('customer-edit', $customer->id) }}" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Edit customer">
-                                                <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
-                                            </a>
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Edit customer">
-                                                <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $customer->customer_name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $customer->phone }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">Rp.
+                                                    {{ number_format($customer->pihutang_balance, 0, ',', '.') }}.000</p>
+                                            </td>
+                                            <td class="align-middle">
+                                                @can('customer.edit')
+                                                    <a href="{{ route('customer-edit', $customer->id) }}"
+                                                        class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                        data-original-title="Edit customer">
+                                                        <span class="btn btn-xs text-sm bg-gradient-warning">Edit</span>
+                                                    </a>
+                                                @endcan
+                                                @can('customer.delete')
+                                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                                        data-toggle="tooltip" data-original-title="Edit customer">
+                                                        <span class="btn btn-xs text-sm bg-gradient-danger">Delete</span>
+                                                    </a>
+                                                @endcan
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

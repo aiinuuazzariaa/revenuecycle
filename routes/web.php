@@ -16,7 +16,7 @@ Route::get('/auth/login', [AuthController::class, 'index'])->middleware('guest')
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('guest')->name('processLogin');
 Route::get('/auth/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::middleware(['auth', 'role:superadmin'])->group(function () {
+Route::middleware(['auth', 'role:superadmin|cashier'])->group(function () {
     Route::get('/', function () {
         return view('pages.dashboard');
     })->name('dashboard');
