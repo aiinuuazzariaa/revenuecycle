@@ -15,9 +15,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="income_id" class="form-control-label">Invoice Number</label>
+                                            <label for="income_id" class="form-control-label">Customer Name</label>
                                             <select class="form-control" name="income_id" required>
-                                                <option value="">-- Select Invoice Number --</option>
+                                                <option value="">-- Select Customer Name --</option>
                                                 @foreach ($incomes as $income)
                                                     <option value="{{ $income->id }}">
                                                         {{ $income->income_invoice_number }}

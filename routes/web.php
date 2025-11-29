@@ -17,6 +17,7 @@ Route::post('/auth/login', [AuthController::class, 'login'])->middleware('guest'
 Route::get('/auth/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::middleware(['auth', 'role:superadmin|cashier'])->group(function () {
+
     Route::get('/', function () {
         return view('pages.dashboard');
     })->name('dashboard');
@@ -72,17 +73,3 @@ Route::middleware(['auth', 'role:superadmin|cashier'])->group(function () {
 
     Route::get('/buku-besar', [BukuBesarController::class, 'index'])->name('buku-besar');
 });
-
-// Route::middleware(['auth', 'role:superadmin|cashier'])->group(function () {
-//     Route::get('/', function () {
-//         return view('pages.dashboard');
-//     })->name('dashboard');
-
-//     Route::get('/income', [IncomeController::class, 'index'])->name('income');
-//     Route::get('/create-income', [IncomeController::class, 'create'])->name('income-create');
-//     Route::post('/create-income', [IncomeController::class, 'store'])->name('income-store');
-
-//     Route::get('/pihutang', [PihutangController::class, 'index'])->name('pihutang');
-//     Route::get('/create-pihutang', [PihutangController::class, 'create'])->name('pihutang-create');
-//     Route::post('/create-pihutang', [PihutangController::class, 'store'])->name('pihutang-store');
-// });
